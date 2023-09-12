@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Image, Pressable, ImageBackground } from "react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
 
@@ -8,10 +8,28 @@ export default function TitleScreen({ navigation }) {
       style={styles.container}
       onPress={() => navigation.navigate("Home")}
     >
-      <View style={styles.text}>
-        <Text style={styles.text}>FINAL FANTASY TCG DECKBUILDER</Text>
-        <Text style={styles.text}>TAP TO CONTINUE...</Text>
-      </View>
+      <ImageBackground
+        source={require("../../assets/titlescreens/opus1.jpg")}
+        resizeMode='cover'
+        style={styles.opus}
+      >
+        <View style={styles.textbox}>
+          <View
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.3)",
+              width: "100%",
+              alignItems: "center",
+              paddingVertical: "8%",
+            }}
+          >
+            <Text style={styles.text}>FINAL FANTASY TCG</Text>
+            <Text style={styles.text}>- DECKBUILDER -</Text>
+            <Text style={styles.calltoactionText}>
+              Tap anywhere to start...
+            </Text>
+          </View>
+        </View>
+      </ImageBackground>
     </Pressable>
   );
 }
@@ -24,5 +42,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: "#d4d5d5",
   },
-  text: { color: "#d4d5d5", fontFamily: "Final-Fantasy", fontSize: 32 },
+  text: {
+    color: "#F5F5F0",
+    fontFamily: "Final-Fantasy",
+    fontSize: 48,
+    opacity: 1,
+  },
+  calltoactionText: {
+    color: "#F5F5F0",
+    fontSize: 24,
+    fontFamily: "Times New Roman",
+    paddingTop: "4%",
+  },
+  textbox: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    flexDirection: "column",
+    width: "100%",
+    paddingVertical: "8%",
+  },
+  opus: {
+    width: "100%",
+    height: "100%",
+  },
 });

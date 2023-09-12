@@ -4,7 +4,7 @@
     "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/small-fftcg-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/fftcg_splash.jpg",
@@ -22,7 +22,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/small-fftcg-logo.png"
     }
   }
 }
