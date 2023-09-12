@@ -8,8 +8,9 @@ export default function TitleScreen({ navigation }) {
       style={styles.container}
       onPress={() => navigation.navigate("Home")}
     >
-      <View>
-        <Text>Title Screen</Text>
+      <View style={styles.text}>
+        <Text style={styles.text}>FINAL FANTASY TCG DECKBUILDER</Text>
+        <Text style={styles.text}>TAP TO CONTINUE...</Text>
       </View>
     </Pressable>
   );
@@ -18,6 +19,10 @@ export default function TitleScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "pink",
+    backgroundColor: "#1a1b1b",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#d4d5d5",
   },
+  text: { color: "#d4d5d5", fontFamily: "Final-Fantasy", fontSize: 32 },
 });

@@ -8,10 +8,10 @@ export default function HomeScreen({ navigation }) {
         style={styles.button}
         onPress={() => navigation.navigate("DeckBuilder")}
       >
-        <Text>DECK BUILDER</Text>
+        <Text style={styles.text}>DECK BUILDER</Text>
       </Pressable>
       <View style={styles.button}>
-        <Text>DUEL</Text>
+        <Text style={styles.text}>DUEL</Text>
       </View>
     </View>
   );
@@ -20,7 +20,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "grey",
+    backgroundColor: "#1a1b1b",
     justifyContent: "center",
     alignItems: "center",
     gap: "12%",
@@ -28,8 +28,13 @@ const styles = StyleSheet.create({
   button: {
     width: "66%",
     height: "33%",
-    backgroundColor: "pink",
+    backgroundColor: "#8E8E93",
     justifyContent: "center",
     alignItems: "center",
+  },
+  text: {
+    fontSize: 48,
+    fontFamily: "Final-Fantasy",
+    color: "#d4d5d5",
   },
 });
