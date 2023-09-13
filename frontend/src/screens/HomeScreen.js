@@ -1,14 +1,14 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import { StyleSheet } from "react-native";
+
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate("DeckBuilder")}
+        onPress={() => navigation.navigate("Decks")}
       >
-        <Text style={styles.text}>DECK BUILDER</Text>
+        <Text style={styles.text}>DECKS</Text>
       </Pressable>
       <View style={styles.button}>
         <Text style={styles.text}>DUEL</Text>

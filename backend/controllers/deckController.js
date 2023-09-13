@@ -25,10 +25,10 @@ const getDeck = async (req, res) => {
 
 //CREATE a new deck
 const createDeck = async (req, res) => {
-  const { name, cards } = req.body;
+  const { title, cards } = req.body;
 
   try {
-    const deck = await Deck.create({ name, cards });
+    const deck = await Deck.create({ title, cards });
     res.status(200).json(deck);
   } catch (error) {
     res.status(400).json({ error: error.message });

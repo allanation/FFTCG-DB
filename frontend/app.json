@@ -1,6 +1,7 @@
 {
+  "proxy": "http://localhost:4000",
   "expo": {
-    "name": "frontend",
+    "name": "Final Fantasy TCG - Deck Builder",
     "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",
