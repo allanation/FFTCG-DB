@@ -24,7 +24,16 @@ export default function DecksScreen({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.text}>DECKS</Text>
       <View style={styles.decks}>
-        {decks && decks.map((deck) => <DeckBox key={deck._id} deck={deck} />)}
+        {decks &&
+          decks.map((deck) => (
+            <DeckBox
+              key={deck._id}
+              deck={deck}
+              onPress={() =>
+                navigation.navigate("DeckBuilder", { deckId: deck._id })
+              }
+            />
+          ))}
       </View>
     </View>
   );
