@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDecksContext } from "../hooks/useDecksContext";
 import axios from "axios";
+import CardSelector from "../components/CardSelector";
 
 export default function DeckBuilderScreen({ navigation, route }) {
   const { deckId } = route.params;
@@ -24,11 +25,13 @@ export default function DeckBuilderScreen({ navigation, route }) {
   }, [dispatch]);
 
   const cards = JSON.stringify(deck.cards);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>DECK BUILDER</Text>
       <Text style={styles.text}>{deck.title}</Text>
       <Text>{cards}</Text>
+      <CardSelector />
     </View>
   );
 }
