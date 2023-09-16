@@ -1,9 +1,9 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function CardSelector() {
-  const [cardList, setCardList] = useState();
+  const [cardList, setCardList] = useState([]);
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -15,11 +15,6 @@ export default function CardSelector() {
 
     fetchCards();
   }, []);
-
-  const stringsss = JSON.stringify(cardList);
-  const obnj = JSON.parse(stringsss, (key, value) => {
-    return value;
-  });
 
   //ALLANS NOTE: THIS SEEMS TO WORK NOW I NEED TO CLEAN DATASET!!!
 
@@ -37,7 +32,14 @@ export default function CardSelector() {
           </View>
         ))}
       </View> */}
-      <Text>{obnj}</Text>
+      {cardList &&
+        cardList.map((card) => {
+          <Text style={styles.text}>{card._id}</Text>;
+        })}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  text: { color: "#d4d5d5" },
+});

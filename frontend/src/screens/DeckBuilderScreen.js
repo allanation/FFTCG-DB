@@ -11,6 +11,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
   const { dispatch } = useDecksContext();
   const [deck, setDeck] = useState([]);
   const [cardsArray, setCardsArray] = useState([]);
+  const [cardList, setCardList] = useState([]);
   useEffect(() => {
     const fetchDeck = async () => {
       await axios
@@ -21,17 +22,31 @@ export default function DeckBuilderScreen({ navigation, route }) {
         });
     };
 
+    const fetchCards = async () => {
+      await axios.get("http://localhost:4000/api/cards").then((res) => {
+        const json = res.data;
+        setCardList(json);
+      });
+    };
+
     fetchDeck();
+    fetchCards();
   }, [dispatch]);
 
   const cards = JSON.stringify(deck.cards);
+  const allCards = JSON.stringify(cardList);
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>DECK BUILDER</Text>
       <Text style={styles.text}>{deck.title}</Text>
       <Text>{cards}</Text>
-      <CardSelector />
+      {/* <Text>{allCards}</Text> */}
+      <View>
+        {cardList.map((card) => (
+          <Text key={card._id}>{card.Name}</Text>
+        ))}
+      </View>
     </View>
   );
 }

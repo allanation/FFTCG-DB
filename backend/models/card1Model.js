@@ -1,0 +1,50 @@
+const mongoose = require("mongoose");
+
+const Schema = mongoose.Schema;
+
+const cardSchema = new Schema({
+  _id: { type: String },
+  Element: { type: String },
+  Rarity: { type: String },
+  Cost: { type: String },
+  Power: { type: String },
+  Category_1: { type: String },
+  Category_2: { type: String },
+  Multicard: { type: String },
+  Ex_Burst: { type: String },
+  Name: { type: String },
+  Type: { type: String },
+  Job: { type: String },
+  Text: { type: String },
+  Name_EN: { type: String },
+  Type_EN: { type: String },
+  Job_EN: { type: String },
+  Text_EN: { type: String },
+  Name_DE: { type: String },
+  Type_DE: { type: String },
+  Job_DE: { type: String },
+  Text_DE: { type: String },
+  Name_ES: { type: String },
+  Type_ES: { type: String },
+  Job_ES: { type: String },
+  Text_ES: { type: String },
+  Name_FR: { type: String },
+  Type_FR: { type: String },
+  Job_FR: { type: String },
+  Text_FR: { type: String },
+  Name_IT: { type: String },
+  Type_IT: { type: String },
+  Job_IT: { type: String },
+  Text_IT: { type: String },
+  Set: { type: String },
+  Text_NA: { type: String },
+  Job_NA: { type: String },
+  Type_NA: { type: String },
+  Name_NA: { type: String },
+  images: {
+    thumbs: [String],
+    full: [String],
+  },
+});
+
+module.exports = mongoose.model("Card", cardSchema);
