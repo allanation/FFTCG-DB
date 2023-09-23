@@ -11,7 +11,6 @@ import {
 import React, { useEffect, useState, useReducer } from "react";
 import { useDecksContext } from "../hooks/useDecksContext";
 import axios from "axios";
-import Modal from "react-native-modal";
 import CardModal from "../components/CardModal";
 
 export default function DeckBuilderScreen({ navigation, route }) {
@@ -24,54 +23,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
   const [cardList, setCardList] = useState([]);
   const [stringDeck2, setStringDeck2] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedCard, setSelectedCard] = useState();
-
-  const openModal = () => {
-    // setSelectedCard(card);
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
-  const cardPath1 =
-    "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/cards/opus20/";
-  const cardPath2 = "_eg.jpg";
-
-  const handleAddingCard = (e) => {
-    const card = { _id: e._id, quantity: 1 };
-
-    // setStringDeck2(JSON.stringify(deck2));
-    // Check if myObject is in the array based on a specific property _id
-    const isCardInDeck = deck2.some((e) => e._id === card._id);
-
-    if (isCardInDeck) {
-      const updatedDeck = deck2.map((e) =>
-        e._id === card._id ? { ...e, ["quantity"]: e["quantity"] + 1 } : e
-      );
-      setDeck2(updatedDeck);
-    } else {
-      setDeck2([card, ...deck2]);
-    }
-  };
-
-  async function submitUpdatedDeck() {
-    Alert.alert("update deck");
-    try {
-      await axios.patch("http://localhost:4000/api/decks/" + deckInfo, {
-        // Include the data you want to send in the request body
-        cards: deck2,
-        // Add any other data you need to send
-      });
-
-      navigation.navigate("Decks");
-      // Handle the response data or update your component's state as needed
-    } catch (error) {
-      Alert.alert("Error:", error);
-      // Handle the error, show an error message, etc.
-    }
-  }
+  const [selectedCard, setSelectedCard] = useState({ _id: "xxx" });
 
   useEffect(() => {
     const fetchDeck = async () => {
@@ -96,6 +48,73 @@ export default function DeckBuilderScreen({ navigation, route }) {
     setStringDeck2(JSON.stringify(deck2));
   }, [dispatch]);
 
+  const openModal = () => {
+    // setSelectedCard(card);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const cardPath1 =
+    "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/cards/opus20/";
+  const cardPath2 = "_eg.jpg";
+
+  const handleAddingCard = (e) => {
+    const cardId = e._id;
+    const isCardInDeck = deck2.some((e) => e._id === cardId);
+    const existingCard = deck2.find((e) => e._id === cardId);
+
+    if (isCardInDeck) {
+      const updatedDeck = deck2.map((e) =>
+        e._id === cardId ? { ...e, ["quantity"]: e["quantity"] + 1 } : e
+      );
+
+      if (existingCard.quantity >= 3) {
+        Alert.alert("Cannot have more than 3 copies of a card");
+      } else {
+        setDeck2(updatedDeck);
+      }
+    } else {
+      const card = { _id: cardId, quantity: 1 };
+      setDeck2([card, ...deck2]);
+    }
+  };
+
+  const handleRemovingCard = (e) => {
+    const cardId = e._id;
+    const isCardInDeck = deck2.some((e) => e._id === cardId);
+    const cardToBeRemoved = deck2.find((e) => e._id === cardId);
+
+    if (isCardInDeck && cardToBeRemoved.quantity > 1) {
+      const updatedDeck = deck2.map((e) =>
+        e._id === cardId ? { ...e, ["quantity"]: e["quantity"] - 1 } : e
+      );
+      setDeck2(updatedDeck);
+    } else {
+      const updatedDeck = deck2.filter((e) => e._id !== cardId);
+      setDeck2(updatedDeck);
+    }
+  };
+
+  async function submitUpdatedDeck() {
+    Alert.alert("Updated deck");
+    try {
+      await axios.patch("http://localhost:4000/api/decks/" + deckInfo, {
+        // Include the data you want to send in the request body
+        cards: deck2,
+        // Add any other data you need to send
+      });
+
+      navigation.navigate("Decks");
+      // Handle the response data or update your component's state as needed
+    } catch (error) {
+      Alert.alert("Error:", error);
+      // Handle the error, show an error message, etc.
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -114,7 +133,12 @@ export default function DeckBuilderScreen({ navigation, route }) {
       <View style={styles.cardDisplay}>
         {deck2 &&
           deck2.map((card) => (
-            <TouchableOpacity key={card._id}>
+            <TouchableOpacity
+              key={card._id}
+              onLongPress={() => {
+                handleRemovingCard(card);
+              }}
+            >
               <ImageBackground
                 source={{ uri: cardPath1 + card._id + cardPath2 }}
                 style={styles.image}
@@ -131,7 +155,6 @@ export default function DeckBuilderScreen({ navigation, route }) {
           <TouchableOpacity
             key={card._id}
             onLongPress={() => {
-              Alert.alert(card._id + " ADDED!");
               handleAddingCard(card);
             }}
             onPress={() => {
@@ -148,7 +171,6 @@ export default function DeckBuilderScreen({ navigation, route }) {
               <Text style={styles.cardInfoRarity}>{card.rarity}</Text>
             </View>
             <Image
-              // source={{ uri: card.images.full[0] }}
               source={{ uri: cardPath1 + card._id + cardPath2 }}
               style={styles.image}
               resizeMode='contain'
