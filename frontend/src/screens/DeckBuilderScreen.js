@@ -11,6 +11,8 @@ import {
 import React, { useEffect, useState, useReducer } from "react";
 import { useDecksContext } from "../hooks/useDecksContext";
 import axios from "axios";
+import Modal from "react-native-modal";
+import CardModal from "../components/CardModal";
 
 export default function DeckBuilderScreen({ navigation, route }) {
   const { deckId } = route.params;
@@ -21,6 +23,17 @@ export default function DeckBuilderScreen({ navigation, route }) {
   const [deck2, setDeck2] = useState([]);
   const [cardList, setCardList] = useState([]);
   const [stringDeck2, setStringDeck2] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedCard, setSelectedCard] = useState();
+
+  const openModal = () => {
+    // setSelectedCard(card);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   const cardPath1 =
     "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/cards/opus20/";
@@ -117,9 +130,13 @@ export default function DeckBuilderScreen({ navigation, route }) {
         {cardList.map((card) => (
           <TouchableOpacity
             key={card._id}
-            onPress={() => {
+            onLongPress={() => {
               Alert.alert(card._id + " ADDED!");
               handleAddingCard(card);
+            }}
+            onPress={() => {
+              openModal();
+              setSelectedCard(card);
             }}
             style={styles.card}
           >
@@ -139,6 +156,11 @@ export default function DeckBuilderScreen({ navigation, route }) {
           </TouchableOpacity>
         ))}
       </View>
+      <CardModal
+        isVisible={isModalVisible}
+        card={selectedCard}
+        closeModal={closeModal}
+      />
     </ScrollView>
   );
 }
@@ -147,6 +169,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1a1b1b",
     gap: "12%",
+    flex: 1,
   },
   header: { alignItems: "center", flexDirection: "column" },
   button: {
