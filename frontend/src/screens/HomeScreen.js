@@ -1,6 +1,5 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import CardSelector from "../components/CardSelector";
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -14,7 +13,6 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.button}>
         <Text style={styles.text}>DUEL</Text>
       </View>
-      <CardSelector />
     </View>
   );
 }

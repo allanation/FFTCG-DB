@@ -7,7 +7,7 @@ export const decksReducer = (state, action) => {
     case "SET_DECKS":
       return { decks: action.payload };
     case "CREATE_DECK":
-      return { decks: [action.payload, ...state.workouts] };
+      return { decks: [action.payload, ...state.deck] };
     case "DELETE_DECK":
       return {
         decks: state.decks.filter((deck) => deck._id !== action.payload._id),
