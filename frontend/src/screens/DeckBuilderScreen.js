@@ -28,10 +28,37 @@ export default function DeckBuilderScreen({ navigation, route }) {
 
   const handleAddingCard = (e) => {
     const card = { _id: e._id, quantity: 1 };
-    deck2.push(card);
-    setDeck2([card, ...deck2]);
-    setStringDeck2(JSON.stringify(deck2));
+
+    // setStringDeck2(JSON.stringify(deck2));
+    // Check if myObject is in the array based on a specific property _id
+    const isCardInDeck = deck2.some((e) => e._id === card._id);
+
+    if (isCardInDeck) {
+      const updatedDeck = deck2.map((e) =>
+        e._id === card._id ? { ...e, ["quantity"]: e["quantity"] + 1 } : e
+      );
+      setDeck2(updatedDeck);
+    } else {
+      setDeck2([card, ...deck2]);
+    }
   };
+
+  async function submitUpdatedDeck() {
+    Alert.alert("update deck");
+    try {
+      await axios.patch("http://localhost:4000/api/decks/" + deckInfo, {
+        // Include the data you want to send in the request body
+        cards: deck2,
+        // Add any other data you need to send
+      });
+
+      navigation.navigate("Decks");
+      // Handle the response data or update your component's state as needed
+    } catch (error) {
+      Alert.alert("Error:", error);
+      // Handle the error, show an error message, etc.
+    }
+  }
 
   useEffect(() => {
     const fetchDeck = async () => {
@@ -67,15 +94,17 @@ export default function DeckBuilderScreen({ navigation, route }) {
         >
           <Text style={styles.text}>{deck.title}</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={submitUpdatedDeck}>
+          <Text>Update</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.cardDisplay}>
         {deck2 &&
           deck2.map((card) => (
-            <TouchableOpacity>
+            <TouchableOpacity key={card._id}>
               <ImageBackground
                 source={{ uri: cardPath1 + card._id + cardPath2 }}
                 style={styles.image}
-                key={card._id}
               >
                 <Text>{card.quantity}</Text>
               </ImageBackground>
