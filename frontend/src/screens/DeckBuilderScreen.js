@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ImageBackground,
+  Button,
 } from "react-native";
 import React, { useEffect, useState, useReducer } from "react";
 import { useDecksContext } from "../hooks/useDecksContext";
@@ -24,6 +25,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
   const [stringDeck2, setStringDeck2] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedCard, setSelectedCard] = useState({ _id: "xxx" });
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     const fetchDeck = async () => {
@@ -33,6 +35,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
           const json = res.data;
           setDeck(json);
           setDeck2(json.cards);
+          setTitle(json.title);
         });
     };
 
@@ -79,6 +82,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
     } else {
       const card = { _id: cardId, quantity: 1 };
       setDeck2([card, ...deck2]);
+      Alert.alert(card._id + " added!\n" + card.quantity + "/3");
     }
   };
 
@@ -98,16 +102,25 @@ export default function DeckBuilderScreen({ navigation, route }) {
     }
   };
 
+  const handleTitleChange = () => {
+    Alert.prompt("Enter a new deck title:", null, (text) => {
+      if (text !== null) {
+        setTitle(text);
+      }
+    });
+  };
+
   async function submitUpdatedDeck() {
     Alert.alert("Updated deck");
     try {
       await axios.patch("http://localhost:4000/api/decks/" + deckInfo, {
         // Include the data you want to send in the request body
+        title: title,
         cards: deck2,
         // Add any other data you need to send
       });
 
-      navigation.navigate("Decks");
+      navigation.navigate("Home");
       // Handle the response data or update your component's state as needed
     } catch (error) {
       Alert.alert("Error:", error);
@@ -119,18 +132,18 @@ export default function DeckBuilderScreen({ navigation, route }) {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.text}>DECK BUILDER</Text>
-        <TouchableOpacity
+        <TouchableOpacity onPress={handleTitleChange}>
+          <Text style={styles.text}>{title}</Text>
+        </TouchableOpacity>
+        <Button
+          title='Back'
           onPress={() => {
-            Alert.alert(stringDeck2);
+            navigation.navigate("Decks");
           }}
-        >
-          <Text style={styles.text}>{deck.title}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={submitUpdatedDeck}>
-          <Text>Update</Text>
-        </TouchableOpacity>
+        />
+        <Button title='Update' onPress={submitUpdatedDeck} />
       </View>
-      <View style={styles.cardDisplay}>
+      <View style={styles.currentDeck}>
         {deck2 &&
           deck2.map((card) => (
             <TouchableOpacity
@@ -143,14 +156,14 @@ export default function DeckBuilderScreen({ navigation, route }) {
                 source={{ uri: cardPath1 + card._id + cardPath2 }}
                 style={styles.image}
               >
-                <Text>{card.quantity}</Text>
+                <Text style={styles.cardInfoContainer}>{card.quantity}</Text>
               </ImageBackground>
             </TouchableOpacity>
           ))}
       </View>
 
       {/* THE IMAGE BELOW CAN BE A COMPONENT */}
-      <View style={styles.cardDisplay}>
+      <View style={styles.trunk}>
         {cardList.map((card) => (
           <TouchableOpacity
             key={card._id}
@@ -215,12 +228,22 @@ const styles = StyleSheet.create({
   },
   text: { color: "#d4d5d5", fontFamily: "Final-Fantasy", fontSize: 48 },
   image: { width: 62, height: 88 },
-  cardDisplay: {
+  trunk: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-around",
     //just for now until drawer is figured out
     borderTopWidth: 5,
     borderTopColor: "pink",
+    width: "100%",
+  },
+  currentDeck: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    //just for now until drawer is figured out
+    borderTopWidth: 5,
+    borderTopColor: "pink",
+    width: "100%",
   },
 });
