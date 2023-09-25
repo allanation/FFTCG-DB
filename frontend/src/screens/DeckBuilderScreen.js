@@ -13,6 +13,8 @@ import React, { useEffect, useState, useReducer } from "react";
 import { useDecksContext } from "../hooks/useDecksContext";
 import axios from "axios";
 import CardModal from "../components/CardModal";
+import ScreenHeader from "../components/ScreenHeader";
+import DeckDisplay from "../components/DeckDisplay";
 
 export default function DeckBuilderScreen({ navigation, route }) {
   const { deckId } = route.params;
@@ -132,6 +134,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.text}>DECK BUILDER</Text>
+        <ScreenHeader header='DECK BUILDER' />
         <TouchableOpacity onPress={handleTitleChange}>
           <Text style={styles.text}>{title}</Text>
         </TouchableOpacity>
@@ -143,24 +146,8 @@ export default function DeckBuilderScreen({ navigation, route }) {
         />
         <Button title='Update' onPress={submitUpdatedDeck} />
       </View>
-      <View style={styles.currentDeck}>
-        {deck2 &&
-          deck2.map((card) => (
-            <TouchableOpacity
-              key={card._id}
-              onLongPress={() => {
-                handleRemovingCard(card);
-              }}
-            >
-              <ImageBackground
-                source={{ uri: cardPath1 + card._id + cardPath2 }}
-                style={styles.image}
-              >
-                <Text style={styles.cardInfoContainer}>{card.quantity}</Text>
-              </ImageBackground>
-            </TouchableOpacity>
-          ))}
-      </View>
+
+      <DeckDisplay deck={deck2} handleRemovingCard={handleRemovingCard} />
 
       {/* THE IMAGE BELOW CAN BE A COMPONENT */}
       <View style={styles.trunk}>

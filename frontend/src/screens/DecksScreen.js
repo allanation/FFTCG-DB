@@ -5,6 +5,7 @@ import axios from "axios";
 
 //components
 import DeckBox from "../components/DeckBox";
+import ScreenHeader from "../components/ScreenHeader";
 
 export default function DecksScreen({ navigation }) {
   const { dispatch } = useDecksContext();
@@ -22,6 +23,7 @@ export default function DecksScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ScreenHeader header='DECKS' />
       <Text style={styles.text}>DECKS</Text>
       <View style={styles.decks}>
         {decks &&

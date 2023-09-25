@@ -1,9 +1,11 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
+import ScreenHeader from "../components/ScreenHeader";
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
+      <ScreenHeader header='HOME' />
       <Pressable
         style={styles.button}
         onPress={() => navigation.navigate("Decks")}
@@ -23,7 +25,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#1a1b1b",
     justifyContent: "center",
     alignItems: "center",
-    gap: "12%",
   },
   button: {
     width: "66%",

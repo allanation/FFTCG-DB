@@ -9,7 +9,7 @@ export default function TitleScreen({ navigation }) {
       onPress={() => navigation.navigate("Home")}
     >
       <ImageBackground
-        source={require("../../assets/titlescreens/opus20.jpg")}
+        source={require("../../assets/titlescreens/opus19.png")}
         resizeMode='cover'
         style={styles.opus}
       >
