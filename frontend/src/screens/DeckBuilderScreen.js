@@ -15,6 +15,7 @@ import axios from "axios";
 import CardModal from "../components/CardModal";
 import ScreenHeader from "../components/ScreenHeader";
 import DeckDisplay from "../components/DeckDisplay";
+import TrunkDisplay from "../components/TrunkDisplay";
 
 export default function DeckBuilderScreen({ navigation, route }) {
   const { deckId } = route.params;
@@ -22,9 +23,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
 
   const { dispatch } = useDecksContext();
   const [deck, setDeck] = useState([]);
-  const [deck2, setDeck2] = useState([]);
-  const [cardList, setCardList] = useState([]);
-  const [stringDeck2, setStringDeck2] = useState("");
+  const [trunk, setTrunk] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedCard, setSelectedCard] = useState({ _id: "xxx" });
   const [title, setTitle] = useState("");
@@ -35,8 +34,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
         .get("http://localhost:4000/api/decks/" + deckInfo)
         .then((res) => {
           const json = res.data;
-          setDeck(json);
-          setDeck2(json.cards);
+          setDeck(json.cards);
           setTitle(json.title);
         });
     };
@@ -44,18 +42,17 @@ export default function DeckBuilderScreen({ navigation, route }) {
     const fetchCards = async () => {
       await axios.get("http://localhost:4000/api/cards").then((res) => {
         const json = res.data;
-        setCardList(json);
+        setTrunk(json);
       });
     };
 
     fetchDeck();
     fetchCards();
-    setStringDeck2(JSON.stringify(deck2));
   }, [dispatch]);
 
-  const openModal = () => {
-    // setSelectedCard(card);
+  const openModal = (card) => {
     setModalVisible(true);
+    setSelectedCard(card);
   };
 
   const closeModal = () => {
@@ -68,39 +65,41 @@ export default function DeckBuilderScreen({ navigation, route }) {
 
   const handleAddingCard = (e) => {
     const cardId = e._id;
-    const isCardInDeck = deck2.some((e) => e._id === cardId);
-    const existingCard = deck2.find((e) => e._id === cardId);
+    const isCardInDeck = deck.some((e) => e._id === cardId);
+    const existingCard = deck.find((e) => e._id === cardId);
 
     if (isCardInDeck) {
-      const updatedDeck = deck2.map((e) =>
+      const updatedDeck = deck.map((e) =>
         e._id === cardId ? { ...e, ["quantity"]: e["quantity"] + 1 } : e
       );
 
       if (existingCard.quantity >= 3) {
         Alert.alert("Cannot have more than 3 copies of a card");
       } else {
-        setDeck2(updatedDeck);
+        setDeck(updatedDeck);
+        const cardAmount = existingCard.quantity + 1;
+        Alert.alert(cardId + " added!\n" + cardAmount + "/3");
       }
     } else {
       const card = { _id: cardId, quantity: 1 };
-      setDeck2([card, ...deck2]);
+      setDeck([card, ...deck]);
       Alert.alert(card._id + " added!\n" + card.quantity + "/3");
     }
   };
 
   const handleRemovingCard = (e) => {
     const cardId = e._id;
-    const isCardInDeck = deck2.some((e) => e._id === cardId);
-    const cardToBeRemoved = deck2.find((e) => e._id === cardId);
+    const isCardInDeck = deck.some((e) => e._id === cardId);
+    const cardToBeRemoved = deck.find((e) => e._id === cardId);
 
     if (isCardInDeck && cardToBeRemoved.quantity > 1) {
-      const updatedDeck = deck2.map((e) =>
+      const updatedDeck = deck.map((e) =>
         e._id === cardId ? { ...e, ["quantity"]: e["quantity"] - 1 } : e
       );
-      setDeck2(updatedDeck);
+      setDeck(updatedDeck);
     } else {
-      const updatedDeck = deck2.filter((e) => e._id !== cardId);
-      setDeck2(updatedDeck);
+      const updatedDeck = deck.filter((e) => e._id !== cardId);
+      setDeck(updatedDeck);
     }
   };
 
@@ -118,7 +117,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
       await axios.patch("http://localhost:4000/api/decks/" + deckInfo, {
         // Include the data you want to send in the request body
         title: title,
-        cards: deck2,
+        cards: deck,
         // Add any other data you need to send
       });
 
@@ -147,37 +146,14 @@ export default function DeckBuilderScreen({ navigation, route }) {
         <Button title='Update' onPress={submitUpdatedDeck} />
       </View>
 
-      <DeckDisplay deck={deck2} handleRemovingCard={handleRemovingCard} />
+      <DeckDisplay deck={deck} handleRemovingCard={handleRemovingCard} />
 
       {/* THE IMAGE BELOW CAN BE A COMPONENT */}
-      <View style={styles.trunk}>
-        {cardList.map((card) => (
-          <TouchableOpacity
-            key={card._id}
-            onLongPress={() => {
-              handleAddingCard(card);
-            }}
-            onPress={() => {
-              openModal();
-              setSelectedCard(card);
-            }}
-            style={styles.card}
-          >
-            <View style={styles.cardInfoContainer}>
-              <Text style={styles.cardInfoText}>
-                {card.element[0]}
-                {card.cost}
-              </Text>
-              <Text style={styles.cardInfoRarity}>{card.rarity}</Text>
-            </View>
-            <Image
-              source={{ uri: cardPath1 + card._id + cardPath2 }}
-              style={styles.image}
-              resizeMode='contain'
-            />
-          </TouchableOpacity>
-        ))}
-      </View>
+      <TrunkDisplay
+        trunk={trunk}
+        openModal={openModal}
+        handleAddingCard={handleAddingCard}
+      />
       <CardModal
         isVisible={isModalVisible}
         card={selectedCard}
@@ -194,43 +170,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: { alignItems: "center", flexDirection: "column" },
-  button: {
-    width: "66%",
-    height: "33%",
-    backgroundColor: "#d4d5d5",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  card: { marginTop: 8 },
-  cardInfoContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "white",
-  },
-  cardInfoRarity: {
-    color: "white",
-    backgroundColor: "grey",
-    width: 24,
-    alignContent: "center",
-  },
   text: { color: "#d4d5d5", fontFamily: "Final-Fantasy", fontSize: 48 },
-  image: { width: 62, height: 88 },
-  trunk: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    //just for now until drawer is figured out
-    borderTopWidth: 5,
-    borderTopColor: "pink",
-    width: "100%",
-  },
-  currentDeck: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    //just for now until drawer is figured out
-    borderTopWidth: 5,
-    borderTopColor: "pink",
-    width: "100%",
-  },
 });
