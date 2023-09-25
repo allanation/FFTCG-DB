@@ -49,5 +49,10 @@ const styles = StyleSheet.create({
     gap: "12%",
   },
   text: { color: "#d4d5d5", fontFamily: "Final-Fantasy", fontSize: 48 },
-  decks: { backgroundColor: "pink", width: "100%", height: "50%" },
+  decks: {
+    backgroundColor: "pink",
+    width: "100%",
+    height: "50%",
+    flexDirection: "row",
+  },
 });

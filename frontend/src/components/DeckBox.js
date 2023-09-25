@@ -5,7 +5,7 @@ export default function DeckBox({ deck, onPress }) {
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <ImageBackground
-        source={require("../../assets/deckbox/red_deckbox.svg")}
+        source={require("../../assets/titlescreens/opus19.jpg")}
         resizeMode='cover'
         style={styles.deckbox}
       >
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     height: "33%",
   },
   deckbox: {
-    width: 100,
-    height: 100,
+    width: "100%",
+    height: "100%",
   },
 });

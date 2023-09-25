@@ -20,13 +20,6 @@ export default function TrunkDisplay({ trunk, handleAddingCard, openModal }) {
             }}
             style={styles.card}
           >
-            <View style={styles.cardInfoContainer}>
-              <Text style={styles.cardInfoText}>
-                {card.element[0]}
-                {card.cost}
-              </Text>
-              <Text style={styles.cardInfoRarity}>{card.rarity}</Text>
-            </View>
             <Image
               source={{ uri: cardPath1 + card._id + cardPath2 }}
               style={styles.image}
@@ -40,25 +33,14 @@ export default function TrunkDisplay({ trunk, handleAddingCard, openModal }) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
     flexWrap: "wrap",
+    flexDirection: "row",
     justifyContent: "space-around",
     //just for now until drawer is figured out
-    borderTopWidth: 5,
-    borderTopColor: "pink",
+    borderTopWidth: 18,
     width: "100%",
   },
+  trunk: { flexDirection: "row" },
   card: { marginTop: 8 },
-  cardInfoContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "white",
-  },
-  cardInfoRarity: {
-    color: "white",
-    backgroundColor: "grey",
-    width: 24,
-    alignContent: "center",
-  },
-  image: { width: 62, height: 88 },
+  image: { width: 115, height: 160 },
 });

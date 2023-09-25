@@ -18,6 +18,7 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     "Final-Fantasy": require("./assets/fonts/finalf.ttf"),
+    "MartelSans-Regular": require("./assets/fonts/MartelSans-Regular.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {

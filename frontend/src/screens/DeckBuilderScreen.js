@@ -2,14 +2,12 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   ScrollView,
   TouchableOpacity,
   Alert,
-  ImageBackground,
   Button,
 } from "react-native";
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import { useDecksContext } from "../hooks/useDecksContext";
 import axios from "axios";
 import CardModal from "../components/CardModal";
@@ -27,6 +25,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedCard, setSelectedCard] = useState({ _id: "xxx" });
   const [title, setTitle] = useState("");
+  const [fontSize, setFontSize] = useState(16);
 
   useEffect(() => {
     const fetchDeck = async () => {
@@ -132,21 +131,27 @@ export default function DeckBuilderScreen({ navigation, route }) {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.text}>DECK BUILDER</Text>
-        <ScreenHeader header='DECK BUILDER' />
-        <TouchableOpacity onPress={handleTitleChange}>
-          <Text style={styles.text}>{title}</Text>
-        </TouchableOpacity>
         <Button
           title='Back'
           onPress={() => {
             navigation.navigate("Decks");
           }}
         />
+        <TouchableOpacity
+          onPress={handleTitleChange}
+          style={styles.titleContainer}
+        >
+          <Text style={styles.text}>{title}</Text>
+        </TouchableOpacity>
+
         <Button title='Update' onPress={submitUpdatedDeck} />
       </View>
 
-      <DeckDisplay deck={deck} handleRemovingCard={handleRemovingCard} />
+      <DeckDisplay
+        deck={deck}
+        handleRemovingCard={handleRemovingCard}
+        openModal={openModal}
+      />
 
       {/* THE IMAGE BELOW CAN BE A COMPONENT */}
       <TrunkDisplay
@@ -169,6 +174,21 @@ const styles = StyleSheet.create({
     gap: "12%",
     flex: 1,
   },
-  header: { alignItems: "center", flexDirection: "column" },
-  text: { color: "#d4d5d5", fontFamily: "Final-Fantasy", fontSize: 48 },
+  header: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: "auto",
+  },
+  text: {
+    color: "#d4d5d5",
+    fontFamily: "MartelSans-Regular",
+    fontSize: 48,
+  },
+  titleContainer: {
+    height: 72,
+    width: "60%",
+    backgroundColor: "blue",
+    alignItems: "center",
+  },
 });

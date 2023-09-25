@@ -5,20 +5,24 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  ScrollView,
 } from "react-native";
 import React from "react";
 
-export default function DeckDisplay({ deck, handleRemovingCard }) {
+export default function DeckDisplay({ deck, handleRemovingCard, openModal }) {
   const cardPath1 =
     "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/cards/opus20/";
   const cardPath2 = "_eg.jpg";
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} horizontal={true}>
       {deck &&
         deck.map((card) => (
           <TouchableOpacity
             key={card._id}
+            onPress={() => {
+              openModal(card);
+            }}
             onLongPress={() => {
               handleRemovingCard(card);
             }}
@@ -31,7 +35,7 @@ export default function DeckDisplay({ deck, handleRemovingCard }) {
             </ImageBackground>
           </TouchableOpacity>
         ))}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -39,7 +43,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-around",
     //just for now until drawer is figured out
     borderTopWidth: 5,
     borderTopColor: "pink",
@@ -50,5 +53,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "white",
   },
-  image: { width: 62, height: 88 },
+  image: { width: 75, height: 105, marginHorizontal: 4 },
 });

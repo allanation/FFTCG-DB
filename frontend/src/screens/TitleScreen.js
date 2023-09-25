@@ -3,13 +3,19 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 export default function TitleScreen({ navigation }) {
+  const opus = Math.floor(Math.random() * 20) + 1;
   return (
     <Pressable
       style={styles.container}
       onPress={() => navigation.navigate("Home")}
     >
       <ImageBackground
-        source={require("../../assets/titlescreens/opus19.png")}
+        source={{
+          uri:
+            "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/titlescreens/opus" +
+            opus +
+            ".jpg",
+        }}
         resizeMode='cover'
         style={styles.opus}
       >
@@ -36,7 +42,6 @@ export default function TitleScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#1a1b1b",
     justifyContent: "center",
     alignItems: "center",
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
   calltoactionText: {
     color: "#F5F5F0",
     fontSize: 24,
-    fontFamily: "Times New Roman",
+    fontFamily: "MartelSans-Regular",
     paddingTop: "4%",
   },
   textbox: {
