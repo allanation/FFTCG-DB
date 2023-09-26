@@ -15,6 +15,7 @@ import TrunkDisplay from "../components/TrunkDisplay";
 import Label from "../components/Label";
 import Icon from "react-native-vector-icons/Ionicons";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import SearchAndFilters from "../components/SearchAndFilters";
 
 export default function DeckBuilderScreen({ navigation, route }) {
   const { deckId } = route.params;
@@ -142,22 +143,21 @@ export default function DeckBuilderScreen({ navigation, route }) {
           }}
         />
 
-        <TouchableOpacity
-          onPress={handleTitleChange}
+        <View
+          // onPress={handleTitleChange}
           style={styles.titleContainer}
         >
           <Text style={styles.text} adjustsFontSizeToFit numberOfLines={1}>
             {title}
           </Text>
-
-          {/* <Icon
+          <Icon
             name='create-outline'
-            size={28}
+            size={24}
             color='white'
             style={styles.icon}
             onPress={handleTitleChange}
-          /> */}
-        </TouchableOpacity>
+          />
+        </View>
         <Icon
           name='save-outline'
           size={28}
@@ -183,6 +183,8 @@ export default function DeckBuilderScreen({ navigation, route }) {
         handleAddingCard={handleAddingCard}
       />
 
+      <SearchAndFilters />
+
       <CardModal
         isVisible={isModalVisible}
         card={selectedCard}
@@ -206,16 +208,25 @@ const styles = StyleSheet.create({
   text: {
     color: "#d4d5d5",
     fontFamily: "MartelSans-Regular",
-    fontSize: 28,
+    fontSize: 48,
   },
   titleContainer: {
-    // width: "70%",
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
     width: scale(240),
   },
   icon: {
-    marginHorizontal: 8,
+    paddingHorizontal: 12,
+    paddingTop: 12,
+    backgroundColor: "#1a1b1b",
+  },
+  searchAndFilterContainer: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
   },
 });

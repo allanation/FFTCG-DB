@@ -35,7 +35,11 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
+      <SafeAreaView
+        style={styles.container}
+        onLayout={onLayoutRootView}
+        forceInset={{ bottom: "never" }}
+      >
         <DecksContextProvider>
           <StatusBar style='light' />
           <NavigationContainer>
