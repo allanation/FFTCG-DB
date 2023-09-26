@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 4 }, // Shadow offset
     shadowOpacity: 0.6, // Shadow opacity
     shadowRadius: 2, // Shadow radius
-    height: "25%",
+    height: "28%",
     paddingTop: 8,
   },
   image: {

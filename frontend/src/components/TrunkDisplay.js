@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 import Label from "./Label";
-import SearchBar from "./SearchBar";
+import SearchBar from "./SearchAndFilters";
 
 export default function TrunkDisplay({ trunk, handleAddingCard, openModal }) {
   const cardPath1 =

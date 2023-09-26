@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import SearchBar from "./SearchBar";
+import SearchBar from "./SearchAndFilters";
 
 export default function Label({ text }) {
   return (

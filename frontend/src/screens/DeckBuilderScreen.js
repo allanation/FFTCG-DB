@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   Alert,
   Button,
@@ -11,10 +10,11 @@ import React, { useEffect, useState } from "react";
 import { useDecksContext } from "../hooks/useDecksContext";
 import axios from "axios";
 import CardModal from "../components/CardModal";
-import ScreenHeader from "../components/ScreenHeader";
 import DeckDisplay from "../components/DeckDisplay";
 import TrunkDisplay from "../components/TrunkDisplay";
 import Label from "../components/Label";
+import Icon from "react-native-vector-icons/Ionicons";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 export default function DeckBuilderScreen({ navigation, route }) {
   const { deckId } = route.params;
@@ -132,20 +132,39 @@ export default function DeckBuilderScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Button
-          title='Back'
+        <Icon
+          name='chevron-back-circle-outline'
+          size={32}
+          color='white'
+          style={styles.icon}
           onPress={() => {
             navigation.navigate("Decks");
           }}
         />
+
         <TouchableOpacity
           onPress={handleTitleChange}
           style={styles.titleContainer}
         >
-          <Text style={styles.text}>{title}</Text>
-        </TouchableOpacity>
+          <Text style={styles.text} adjustsFontSizeToFit numberOfLines={1}>
+            {title}
+          </Text>
 
-        <Button title='Update' onPress={submitUpdatedDeck} />
+          {/* <Icon
+            name='create-outline'
+            size={28}
+            color='white'
+            style={styles.icon}
+            onPress={handleTitleChange}
+          /> */}
+        </TouchableOpacity>
+        <Icon
+          name='save-outline'
+          size={28}
+          color='white'
+          style={styles.icon}
+          onPress={submitUpdatedDeck}
+        />
       </View>
 
       <Label text='DECK' />
@@ -182,15 +201,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
+    height: "6%",
   },
   text: {
     color: "#d4d5d5",
     fontFamily: "MartelSans-Regular",
-    fontSize: 48,
+    fontSize: 28,
   },
   titleContainer: {
-    height: 72,
-    width: "60%",
+    // width: "70%",
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    width: scale(240),
+  },
+  icon: {
+    marginHorizontal: 8,
   },
 });
