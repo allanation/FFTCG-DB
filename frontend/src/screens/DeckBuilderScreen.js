@@ -14,6 +14,7 @@ import CardModal from "../components/CardModal";
 import ScreenHeader from "../components/ScreenHeader";
 import DeckDisplay from "../components/DeckDisplay";
 import TrunkDisplay from "../components/TrunkDisplay";
+import Label from "../components/Label";
 
 export default function DeckBuilderScreen({ navigation, route }) {
   const { deckId } = route.params;
@@ -129,7 +130,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Button
           title='Back'
@@ -147,38 +148,40 @@ export default function DeckBuilderScreen({ navigation, route }) {
         <Button title='Update' onPress={submitUpdatedDeck} />
       </View>
 
+      <Label text='DECK' />
+
       <DeckDisplay
         deck={deck}
         handleRemovingCard={handleRemovingCard}
         openModal={openModal}
       />
 
-      {/* THE IMAGE BELOW CAN BE A COMPONENT */}
+      <Label text='CARDS' />
+
       <TrunkDisplay
         trunk={trunk}
         openModal={openModal}
         handleAddingCard={handleAddingCard}
       />
+
       <CardModal
         isVisible={isModalVisible}
         card={selectedCard}
         closeModal={closeModal}
       />
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1a1b1b",
-    gap: "12%",
     flex: 1,
   },
   header: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    height: "auto",
   },
   text: {
     color: "#d4d5d5",
@@ -188,7 +191,6 @@ const styles = StyleSheet.create({
   titleContainer: {
     height: 72,
     width: "60%",
-    backgroundColor: "blue",
     alignItems: "center",
   },
 });

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   calltoactionText: {
     color: "#F5F5F0",
     fontSize: 24,
-    fontFamily: "MartelSans-Regular",
+    fontFamily: "MartelSans-Bold",
     paddingTop: "4%",
   },
   textbox: {

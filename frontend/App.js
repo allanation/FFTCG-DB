@@ -19,6 +19,8 @@ export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     "Final-Fantasy": require("./assets/fonts/finalf.ttf"),
     "MartelSans-Regular": require("./assets/fonts/MartelSans-Regular.ttf"),
+    "MartelSans-Bold": require("./assets/fonts/MartelSans-Bold.ttf"),
+    "MartelSans-Light": require("./assets/fonts/MartelSans-Light.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {

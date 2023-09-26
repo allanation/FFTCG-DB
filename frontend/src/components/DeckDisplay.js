@@ -31,7 +31,7 @@ export default function DeckDisplay({ deck, handleRemovingCard, openModal }) {
               source={{ uri: cardPath1 + card._id + cardPath2 }}
               style={styles.image}
             >
-              <Text style={styles.cardInfoContainer}>x{card.quantity}</Text>
+              <Text style={styles.text}>{card.quantity}</Text>
             </ImageBackground>
           </TouchableOpacity>
         ))}
@@ -42,16 +42,30 @@ export default function DeckDisplay({ deck, handleRemovingCard, openModal }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    //just for now until drawer is figured out
-    borderTopWidth: 5,
-    borderTopColor: "pink",
     width: "100%",
+    elevation: 5,
+    shadowColor: "white", // Shadow color
+    shadowOffset: { width: 2, height: 4 }, // Shadow offset
+    shadowOpacity: 0.6, // Shadow opacity
+    shadowRadius: 2, // Shadow radius
+    height: "25%",
+    paddingTop: 8,
   },
-  cardInfoContainer: {
+  image: {
+    width: 75,
+    height: 105,
+    marginHorizontal: 4,
     flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "white",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
-  image: { width: 75, height: 105, marginHorizontal: 4 },
+  text: {
+    fontFamily: "MartelSans-Bold",
+    fontSize: 24,
+    color: "white",
+    textShadowColor: "black", // Set shadow color to black
+    textShadowOffset: { width: -1, height: 3 }, // Offset for a black outline
+    textShadowRadius: 3,
+    marginTop: 75,
+  },
 });

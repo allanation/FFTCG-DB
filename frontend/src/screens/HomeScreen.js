@@ -1,20 +1,36 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Button } from "react-native";
 import React from "react";
-import ScreenHeader from "../components/ScreenHeader";
+import TextBox from "../components/TextBox";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <ScreenHeader header='HOME' />
-      <Pressable
+      {/* <ScreenHeader header='HOME' /> */}
+      <View style={styles.header}>
+        <Button title='Settings' />
+        <Text style={styles.text}>FFTCG</Text>
+        <Button title='Logout' />
+      </View>
+      <TextBox text='Welcome to the unofficial FFTCG Deckbuilder' />
+      <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Decks")}
       >
-        <Text style={styles.text}>DECKS</Text>
-      </Pressable>
-      <View style={styles.button}>
-        <Text style={styles.text}>DUEL</Text>
-      </View>
+        {/* outer */}
+        <LinearGradient
+          colors={["rgba(0,27,133,0.8)", "transparent"]}
+          style={styles.outer}
+        >
+          {/* inner */}
+          <LinearGradient
+            colors={["rgba(0,83,173,0.8)", "transparent"]}
+            style={styles.inner}
+          >
+            <Text style={styles.text}>DECK</Text>
+          </LinearGradient>
+        </LinearGradient>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -23,19 +39,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1a1b1b",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
   },
+  header: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  headerText: { fontFamily: "MartelSans-Regular", fontSize: 48 },
   button: {
-    width: "66%",
-    height: "33%",
-    backgroundColor: "#8E8E93",
+    height: 72,
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 4,
+    borderColor: "white",
+    borderRadius: 4,
   },
   text: {
     fontSize: 48,
-    fontFamily: "Final-Fantasy",
+    fontFamily: "MartelSans-Bold",
     color: "#d4d5d5",
   },
+  outer: { width: "100%", padding: 4, borderRadius: 10, alignItems: "center" },
+  inner: { alignItems: "center" },
 });

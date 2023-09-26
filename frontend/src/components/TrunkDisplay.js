@@ -1,5 +1,13 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
 import React from "react";
+import Label from "./Label";
+import SearchBar from "./SearchBar";
 
 export default function TrunkDisplay({ trunk, handleAddingCard, openModal }) {
   const cardPath1 =
@@ -7,40 +15,47 @@ export default function TrunkDisplay({ trunk, handleAddingCard, openModal }) {
   const cardPath2 = "_eg.jpg";
 
   return (
-    <View style={styles.container}>
-      {trunk &&
-        trunk.map((card) => (
-          <TouchableOpacity
-            key={card._id}
-            onLongPress={() => {
-              handleAddingCard(card);
-            }}
-            onPress={() => {
-              openModal(card);
-            }}
-            style={styles.card}
-          >
-            <Image
-              source={{ uri: cardPath1 + card._id + cardPath2 }}
-              style={styles.image}
-              resizeMode='contain'
-            />
-          </TouchableOpacity>
-        ))}
-    </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.trunk}>
+        {trunk &&
+          trunk.map((card) => (
+            <TouchableOpacity
+              key={card._id}
+              onLongPress={() => {
+                handleAddingCard(card);
+              }}
+              onPress={() => {
+                openModal(card);
+              }}
+              style={styles.card}
+            >
+              <Image
+                source={{ uri: cardPath1 + card._id + cardPath2 }}
+                style={styles.image}
+                resizeMode='contain'
+              />
+            </TouchableOpacity>
+          ))}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container: { marginTop: 8 },
+  trunk: {
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "space-around",
-    //just for now until drawer is figured out
-    borderTopWidth: 18,
     width: "100%",
   },
-  trunk: { flexDirection: "row" },
-  card: { marginTop: 8 },
-  image: { width: 115, height: 160 },
+  card: {
+    marginTop: 12,
+    elevation: 5,
+    shadowColor: "#F5F5F0",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+  },
+  image: { width: 86, height: 120 },
 });
