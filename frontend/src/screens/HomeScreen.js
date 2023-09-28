@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Button } from "react-native";
 import React from "react";
 import TextBox from "../components/TextBox";
 import { LinearGradient } from "expo-linear-gradient";
+import FilterModal from "../components/FilterModal";
+import CustomButton from "../components/CustomButton";
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -13,16 +15,14 @@ export default function HomeScreen({ navigation }) {
         <Button title='Logout' />
       </View>
       <TextBox text='Welcome to the unofficial FFTCG Deckbuilder' />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Decks")}
       >
-        {/* outer */}
         <LinearGradient
           colors={["rgba(0,27,133,0.8)", "transparent"]}
           style={styles.outer}
         >
-          {/* inner */}
           <LinearGradient
             colors={["rgba(0,83,173,0.8)", "transparent"]}
             style={styles.inner}
@@ -30,7 +30,9 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.text}>DECK</Text>
           </LinearGradient>
         </LinearGradient>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      {/* <FilterModal /> */}
+      <CustomButton text='DECK' onPress={() => navigation.navigate("Decks")} />
     </View>
   );
 }
@@ -62,6 +64,4 @@ const styles = StyleSheet.create({
     fontFamily: "MartelSans-Bold",
     color: "#d4d5d5",
   },
-  outer: { width: "100%", padding: 4, borderRadius: 10, alignItems: "center" },
-  inner: { alignItems: "center" },
 });

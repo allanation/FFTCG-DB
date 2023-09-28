@@ -16,6 +16,7 @@ import Label from "../components/Label";
 import Icon from "react-native-vector-icons/Ionicons";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import SearchAndFilters from "../components/SearchAndFilters";
+import FilterModal from "../components/FilterModal";
 
 export default function DeckBuilderScreen({ navigation, route }) {
   const { deckId } = route.params;
@@ -184,7 +185,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
       />
 
       <SearchAndFilters />
-
+      <FilterModal />
       <CardModal
         isVisible={isModalVisible}
         card={selectedCard}
