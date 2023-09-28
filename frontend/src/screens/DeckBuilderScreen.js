@@ -25,7 +25,9 @@ export default function DeckBuilderScreen({ navigation, route }) {
   const { dispatch } = useDecksContext();
   const [deck, setDeck] = useState([]);
   const [trunk, setTrunk] = useState([]);
+  const [originalTrunk, setOriginalTrunk] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isFilterVisible, setFilterVisible] = useState(false);
   const [selectedCard, setSelectedCard] = useState({ _id: "xxx" });
   const [title, setTitle] = useState("");
   const [fontSize, setFontSize] = useState(16);
@@ -45,6 +47,7 @@ export default function DeckBuilderScreen({ navigation, route }) {
       await axios.get("http://localhost:4000/api/cards").then((res) => {
         const json = res.data;
         setTrunk(json);
+        setOriginalTrunk(json);
       });
     };
 
@@ -59,6 +62,14 @@ export default function DeckBuilderScreen({ navigation, route }) {
 
   const closeModal = () => {
     setModalVisible(false);
+  };
+
+  const openFilterModal = () => {
+    setFilterVisible(true);
+  };
+
+  const closeFilterModal = () => {
+    setFilterVisible(false);
   };
 
   const cardPath1 =
@@ -131,6 +142,21 @@ export default function DeckBuilderScreen({ navigation, route }) {
     }
   }
 
+  const handleFilter = (e) => {
+    setFilterVisible(false);
+    Alert.alert("filter handled!" + e);
+    const filteredTrunk = trunk.filter((card) =>
+      e.some((e) => card.element.includes(e))
+    );
+    setTrunk(filteredTrunk);
+  };
+
+  const cancelFilter = () => {
+    setFilterVisible(false);
+    Alert.alert("cancel filter!");
+    setTrunk(originalTrunk);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -184,8 +210,15 @@ export default function DeckBuilderScreen({ navigation, route }) {
         handleAddingCard={handleAddingCard}
       />
 
-      <SearchAndFilters />
-      <FilterModal />
+      <SearchAndFilters openFilterModal={openFilterModal} />
+
+      <FilterModal
+        isFilterVisible={isFilterVisible}
+        closeFilterModal={closeFilterModal}
+        handleFilter={handleFilter}
+        cancelFilter={cancelFilter}
+      />
+
       <CardModal
         isVisible={isModalVisible}
         card={selectedCard}

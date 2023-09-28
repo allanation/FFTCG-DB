@@ -1,8 +1,8 @@
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, Pressable, Alert } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 
-export default function SearchAndFilters() {
+export default function SearchAndFilters({ openFilterModal, handleFilter }) {
   return (
     <View style={styles.searchAndFilterContainer}>
       <Icon
@@ -35,20 +35,19 @@ export default function SearchAndFilters() {
           />
         </View>
       </View>
-      <Icon
-        name='funnel-outline'
-        size={36}
-        color='white'
-        style={{
-          paddingHorizontal: 12,
-          paddingTop: 8,
-          backgroundColor: "#1a1b1b",
-          borderTopLeftRadius: 8,
-        }}
-        onPress={() => {
-          Alert.alert("DISPLAY FILTERS");
-        }}
-      />
+      <Pressable onPress={openFilterModal}>
+        <Icon
+          name='funnel-outline'
+          size={36}
+          color='white'
+          style={{
+            paddingHorizontal: 12,
+            paddingTop: 8,
+            backgroundColor: "#1a1b1b",
+            borderTopLeftRadius: 8,
+          }}
+        />
+      </Pressable>
     </View>
   );
 }

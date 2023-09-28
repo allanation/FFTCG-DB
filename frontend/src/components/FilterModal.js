@@ -6,24 +6,33 @@ import {
   Alert,
   Pressable,
   TextInput,
+  Modal,
+  TouchableOpacity,
+  Image,
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Label from "./Label";
 import CustomButton from "./CustomButton";
+import { BlurView } from "expo-blur";
 
-export default function FilterModal() {
+export default function FilterModal({
+  isFilterVisible,
+  closeFilterModal,
+  handleFilter,
+  cancelFilter,
+}) {
   const elements = [
-    { character: "\u706b", element: "Fire" },
-    { character: "\u6c37", element: "Ice" },
-    { character: "\u98a8", element: "Wind" },
-    { character: "\u571f", element: "Earth" },
-    { character: "\u96f7", element: "Lightning" },
-    { character: "\u6c34", element: "Water" },
-    { character: "\u5149", element: "Light" },
-    { character: "\u95c7", element: "Dark" },
+    { character: "\u706b", element: "fire" },
+    { character: "\u6c37", element: "ice" },
+    { character: "\u98a8", element: "wind" },
+    { character: "\u571f", element: "earth" },
+    { character: "\u96f7", element: "lightning" },
+    { character: "\u6c34", element: "water" },
+    { character: "\u5149", element: "light" },
+    { character: "\u95c7", element: "dark" },
   ];
-  const costs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  const costs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "10+"];
   const types = ["Backup", "Forward", "Monster", "Summon"];
   const rarities = ["Common", "Rare", "Hero", "Legend", "Starter", "Promo"];
   const sets = [
@@ -181,7 +190,10 @@ export default function FilterModal() {
   const icons = ["EX", "SPECIAL", "MULTI"];
   const powers = ["\u2264", "=", "\u2265"];
   const [selectedElements, setSelectedElements] = useState([]);
-
+  const selectedStyle = { color: "red" };
+  const unselectedStyle = { color: "white" };
+  const cardPath =
+    "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/elements/";
   function handleSelectedElements(element) {
     const elementInArray = selectedElements.includes(element);
 
@@ -197,161 +209,182 @@ export default function FilterModal() {
   }
 
   return (
-    <LinearGradient
-      colors={["#0053ad", "#001b85", "#000223"]}
-      style={styles.container}
-    >
-      <Text style={styles.header}>FILTERS</Text>
-      <ScrollView>
-        <Label text='ELEMENT' />
-        <View style={styles.typeContainer}>
-          {elements &&
-            elements.map((element) => (
-              <Pressable
-                key={element.element}
-                style={styles.element}
-                onPress={() => {
-                  handleSelectedElements(element.character);
-                }}
-              >
-                <Text style={styles.text}>{element.character}</Text>
-              </Pressable>
-            ))}
-        </View>
-        <Label text='COST' />
-        <View style={styles.typeContainer}>
-          {costs &&
-            costs.map((cost) => (
-              <Pressable
-                key={cost}
-                style={styles.cost}
-                onPress={() => {
-                  Alert.alert("cost selected");
-                }}
-              >
-                <Text style={styles.text}>{cost}</Text>
-              </Pressable>
-            ))}
-        </View>
-        <Label text='TYPES' />
-        <View style={styles.typeContainer}>
-          {types &&
-            types.map((type) => (
-              <Pressable
-                key={type}
-                style={styles.type}
-                onPress={() => {
-                  Alert.alert("type selected");
-                }}
-              >
-                <Text style={styles.text}>{type}</Text>
-              </Pressable>
-            ))}
-        </View>
-        <Label text='RARITY' />
-        <View style={styles.typeContainer}>
-          {rarities &&
-            rarities.map((rarity) => (
-              <Pressable
-                key={rarity}
-                style={styles.rarity}
-                onPress={() => {
-                  Alert.alert("rarity selected");
-                }}
-              >
-                <Text style={styles.text}>{rarity}</Text>
-              </Pressable>
-            ))}
-        </View>
-        <Label text='SET' />
-        <ScrollView style={styles.setsContainer}>
-          {sets &&
-            sets.map((set) => (
-              <Pressable
-                key={set}
-                style={styles.set}
-                onPress={() => {
-                  Alert.alert("set selected");
-                }}
-              >
-                <Text style={styles.text}>{set}</Text>
-              </Pressable>
-            ))}
-        </ScrollView>
-        <Label text='CATEGORY' />
-        <ScrollView style={styles.typeContainer}>
-          {categories &&
-            categories.map((category) => (
-              <Pressable
-                key={category.value}
-                style={styles.set}
-                onPress={() => {
-                  Alert.alert("category selected");
-                }}
-              >
-                <Text style={styles.text}>{category.title}</Text>
-              </Pressable>
-            ))}
-        </ScrollView>
-        <Label text='ICON' />
-        <View style={styles.typeContainer}>
-          {icons &&
-            icons.map((icon) => (
-              <Pressable
-                key={icon}
-                style={styles.icon}
-                onPress={() => {
-                  Alert.alert("icon selected");
-                }}
-              >
-                <Text style={styles.text}>{icon}</Text>
-              </Pressable>
-            ))}
-        </View>
-        <Label text='POWER' />
-        <View style={styles.powerContainer}>
-          <View style={styles.equivalenceContainer}>
-            {powers &&
-              powers.map((power) => (
-                <Pressable
-                  style={styles.power}
-                  onPress={() => {
-                    Alert.alert("power selected");
-                  }}
-                >
-                  <Text style={styles.text}>{power}</Text>
-                </Pressable>
-              ))}
+    <Modal visible={isFilterVisible} style={styles.modal} transparent>
+      <BlurView tint='light' intensity={10}>
+        <Pressable
+          style={styles.transparent}
+          onPress={closeFilterModal}
+        ></Pressable>
+        <LinearGradient
+          colors={["#0053ad", "#001b85", "#000223"]}
+          style={styles.container}
+        >
+          <Text style={styles.header}>FILTERS</Text>
+          <ScrollView>
+            <Label text='ELEMENT' />
+            <View style={styles.typeContainer}>
+              {elements &&
+                elements.map((element) => (
+                  <TouchableOpacity
+                    key={element.element}
+                    style={styles.element}
+                    onPress={() => {
+                      handleSelectedElements(element.character);
+                      //   Alert.alert(element.element);
+                    }}
+                  >
+                    <Image
+                      source={{
+                        uri: cardPath + element.element + ".png",
+                      }}
+                      style={styles.image}
+                    />
+                    {/* <Text style={styles.text}>{element.character}</Text> */}
+                  </TouchableOpacity>
+                ))}
+            </View>
+            <Label text='COST' />
+            <View style={styles.typeContainer}>
+              {costs &&
+                costs.map((cost) => (
+                  <Pressable
+                    key={cost}
+                    style={styles.cost}
+                    onPress={() => {
+                      Alert.alert("cost selected");
+                    }}
+                  >
+                    <Text style={styles.text}>{cost}</Text>
+                  </Pressable>
+                ))}
+            </View>
+            <Label text='TYPES' />
+            <View style={styles.typeContainer}>
+              {types &&
+                types.map((type) => (
+                  <Pressable
+                    key={type}
+                    style={styles.type}
+                    onPress={() => {
+                      Alert.alert("type selected");
+                    }}
+                  >
+                    <Text style={styles.text}>{type}</Text>
+                  </Pressable>
+                ))}
+            </View>
+            <Label text='RARITY' />
+            <View style={styles.typeContainer}>
+              {rarities &&
+                rarities.map((rarity) => (
+                  <Pressable
+                    key={rarity}
+                    style={styles.rarity}
+                    onPress={() => {
+                      Alert.alert("rarity selected");
+                    }}
+                  >
+                    <Text style={styles.text}>{rarity}</Text>
+                  </Pressable>
+                ))}
+            </View>
+            <Label text='SET' />
+            <ScrollView style={styles.setsContainer}>
+              {sets &&
+                sets.map((set) => (
+                  <Pressable
+                    key={set}
+                    style={styles.set}
+                    onPress={() => {
+                      Alert.alert("set selected");
+                    }}
+                  >
+                    <Text style={styles.text}>{set}</Text>
+                  </Pressable>
+                ))}
+            </ScrollView>
+            <Label text='CATEGORY' />
+            <ScrollView style={styles.setsContainer}>
+              {categories &&
+                categories.map((category) => (
+                  <Pressable
+                    key={category.value}
+                    style={styles.set}
+                    onPress={() => {
+                      Alert.alert("category selected");
+                    }}
+                  >
+                    <Text style={styles.text}>{category.title}</Text>
+                  </Pressable>
+                ))}
+            </ScrollView>
+            <Label text='ICON' />
+            <View style={styles.typeContainer}>
+              {icons &&
+                icons.map((icon) => (
+                  <Pressable
+                    key={icon}
+                    style={styles.icon}
+                    onPress={() => {
+                      Alert.alert("icon selected");
+                    }}
+                  >
+                    <Text style={styles.text}>{icon}</Text>
+                  </Pressable>
+                ))}
+            </View>
+            <Label text='POWER' />
+            <View style={styles.powerContainer}>
+              <View style={styles.equivalenceContainer}>
+                {powers &&
+                  powers.map((power) => (
+                    <Pressable
+                      style={styles.power}
+                      onPress={() => {
+                        Alert.alert("power selected");
+                      }}
+                    >
+                      <Text style={styles.text}>{power}</Text>
+                    </Pressable>
+                  ))}
+              </View>
+              <TextInput
+                style={styles.powerTextInput}
+                keyboardType='number-pad'
+                maxLength={5}
+              />
+            </View>
+          </ScrollView>
+          {/* FILTER SUBMIT */}
+          <View style={styles.buttonContainer}>
+            <CustomButton
+              text='Clear'
+              onPress={() => {
+                cancelFilter();
+                setSelectedElements([]);
+              }}
+            />
+            <CustomButton
+              text='Filter'
+              onPress={() => {
+                handleFilter(selectedElements);
+              }}
+            />
           </View>
-          <TextInput style={styles.powerTextInput} keyboardType='number-pad' />
-        </View>
-      </ScrollView>
-      {/* FILTER SUBMIT */}
-      <View style={styles.buttonContainer}>
-        <CustomButton
-          text='Clear'
-          onPress={() => {
-            Alert.alert("Clear");
-          }}
-        />
-        <CustomButton
-          text='Filter'
-          onPress={() => {
-            Alert.alert("Filter Cards");
-          }}
-        />
-      </View>
-    </LinearGradient>
+        </LinearGradient>
+      </BlurView>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: "70%",
+    width: "60%",
     height: "100%",
     position: "absolute",
     right: 0,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 48,
   },
   header: {
     fontFamily: "Final-Fantasy",
@@ -372,21 +405,21 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   element: {
-    width: "12%",
+    width: "25%",
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 8,
   },
   cost: {
-    width: "9%",
+    width: "20%",
     height: 36,
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
   },
   rarity: {
-    width: "33%",
+    width: "50%",
     paddingVertical: 8,
     borderWidth: 2,
     alignItems: "center",
@@ -404,7 +437,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    width: "33%",
+    width: "33.33%",
     paddingVertical: 8,
     borderWidth: 2,
     alignItems: "center",
@@ -412,7 +445,7 @@ const styles = StyleSheet.create({
   powerContainer: {
     width: "100%",
     flexDirection: "row",
-    marginTop: 16,
+    marginVertical: 16,
   },
   equivalenceContainer: {
     width: "60%",
@@ -427,10 +460,12 @@ const styles = StyleSheet.create({
   },
   powerTextInput: {
     width: "100%",
+    height: 50,
     backgroundColor: "lightgrey",
     fontSize: 28,
     fontFamily: "MartelSans-Bold",
     paddingHorizontal: 8,
+    borderWidth: 2,
   },
   buttonContainer: { width: "100%", flexDirection: "row" },
   text: {
@@ -438,4 +473,6 @@ const styles = StyleSheet.create({
     fontFamily: "MartelSans-Regular",
     fontSize: 16,
   },
+  image: { width: 24, height: 24 },
+  transparent: { width: "40%", height: "100%" },
 });

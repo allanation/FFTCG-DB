@@ -28,8 +28,8 @@ export default function TitleScreen({ navigation }) {
               paddingVertical: "8%",
             }}
           >
-            <Text style={styles.text}>FINAL FANTASY TCG</Text>
-            <Text style={styles.text}>- DECKBUILDER -</Text>
+            <Text style={styles.text}>FINAL FANTASY</Text>
+            <Text style={styles.text}>TRADING CARD GAME</Text>
             <Text style={styles.calltoactionText}>
               Tap anywhere to start...
             </Text>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   calltoactionText: {
     color: "#F5F5F0",
     fontSize: 24,
-    fontFamily: "MartelSans-Bold",
+    fontFamily: "MartelSans-Regular",
     paddingTop: "4%",
   },
   textbox: {

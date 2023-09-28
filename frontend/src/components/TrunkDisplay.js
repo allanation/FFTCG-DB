@@ -34,6 +34,11 @@ export default function TrunkDisplay({ trunk, handleAddingCard, openModal }) {
                 style={styles.image}
                 resizeMode='contain'
               />
+              {/* <Image
+                source={{ uri: card.images.thumbs[0] }}
+                style={styles.image}
+                resizeMode='contain'
+              /> */}
             </TouchableOpacity>
           ))}
       </View>

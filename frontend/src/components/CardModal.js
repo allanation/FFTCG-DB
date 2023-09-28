@@ -8,7 +8,7 @@ const CardModal = ({ isVisible, card, closeModal }) => {
   const cardPath2 = "_eg.jpg";
 
   return (
-    <Modal visible={isVisible} style={styles.container}>
+    <Modal visible={isVisible} style={styles.container} animationType='slide'>
       <View>
         <Text>{card._id}</Text>
         <Text>{card.name}</Text>
