@@ -24,7 +24,9 @@ export default function CustomButton({ onPress, text }) {
 
 const styles = StyleSheet.create({
   button: {
-    height: 72,
+    // height: 74,
+    width: "50%",
+    height: 42,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 4,
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
   outer: { width: "100%", padding: 4, borderRadius: 10, alignItems: "center" },
   inner: { alignItems: "center" },
   text: {
-    fontSize: 48,
+    fontSize: 28,
     fontFamily: "MartelSans-Bold",
     color: "#d4d5d5",
   },

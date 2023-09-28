@@ -142,10 +142,11 @@ export default function DeckBuilderScreen({ navigation, route }) {
     }
   }
 
+  const [filteredTrunk, setFilteredTrunk] = useState([]);
+
   const handleFilter = (e) => {
     setFilterVisible(false);
-    Alert.alert("filter handled!" + e);
-    const filteredTrunk = trunk.filter((card) =>
+    const filteredTrunk = originalTrunk.filter((card) =>
       e.some((e) => card.element.includes(e))
     );
     setTrunk(filteredTrunk);
@@ -153,7 +154,6 @@ export default function DeckBuilderScreen({ navigation, route }) {
 
   const cancelFilter = () => {
     setFilterVisible(false);
-    Alert.alert("cancel filter!");
     setTrunk(originalTrunk);
   };
 

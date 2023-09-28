@@ -22,16 +22,18 @@ export default function FilterModal({
   handleFilter,
   cancelFilter,
 }) {
-  const elements = [
-    { character: "\u706b", element: "fire" },
-    { character: "\u6c37", element: "ice" },
-    { character: "\u98a8", element: "wind" },
-    { character: "\u571f", element: "earth" },
-    { character: "\u96f7", element: "lightning" },
-    { character: "\u6c34", element: "water" },
-    { character: "\u5149", element: "light" },
-    { character: "\u95c7", element: "dark" },
+  const elementsArray = [
+    { character: "\u706b", element: "fire", selected: false },
+    { character: "\u6c37", element: "ice", selected: false },
+    { character: "\u98a8", element: "wind", selected: false },
+    { character: "\u571f", element: "earth", selected: false },
+    { character: "\u96f7", element: "lightning", selected: false },
+    { character: "\u6c34", element: "water", selected: false },
+    { character: "\u5149", element: "light", selected: false },
+    { character: "\u95c7", element: "dark", selected: false },
   ];
+  const [elements, setElements] = useState(elementsArray);
+
   const costs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "10+"];
   const types = ["Backup", "Forward", "Monster", "Summon"];
   const rarities = ["Common", "Rare", "Hero", "Legend", "Starter", "Promo"];
@@ -189,31 +191,62 @@ export default function FilterModal({
   ];
   const icons = ["EX", "SPECIAL", "MULTI"];
   const powers = ["\u2264", "=", "\u2265"];
+
   const [selectedElements, setSelectedElements] = useState([]);
-  const selectedStyle = { color: "red" };
-  const unselectedStyle = { color: "white" };
   const cardPath =
     "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/elements/";
+
   function handleSelectedElements(element) {
     const elementInArray = selectedElements.includes(element);
 
-    // Alert.alert(elementCheck);
     if (elementInArray) {
       const newArray = selectedElements.filter((e) => e !== element);
       setSelectedElements(newArray);
-      Alert.alert("element is removed from the array" + selectedElements);
+      const updatedArray = elements.map((item) => {
+        if (item.character === element) {
+          // Update the object with the matching ID
+          return { ...item, selected: false };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setElements(updatedArray);
     } else {
       setSelectedElements([...selectedElements, element]);
-      Alert.alert("element is added to the array" + selectedElements);
+      const updatedArray = elements.map((item) => {
+        if (item.character === element) {
+          // Update the object with the matching ID
+          return { ...item, selected: true };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setElements(updatedArray);
     }
   }
+
+  const submitFilter = () => {
+    handleFilter(selectedElements);
+  };
+
+  const resetFilter = () => {
+    cancelFilter();
+    setElements(elementsArray);
+    setSelectedElements([]);
+  };
+
+  const pressedOutsideModal = () => {
+    closeFilterModal;
+    submitFilter();
+    if (selectedElements.length === 0) {
+      cancelFilter();
+    }
+  };
 
   return (
     <Modal visible={isFilterVisible} style={styles.modal} transparent>
       <BlurView tint='light' intensity={10}>
         <Pressable
           style={styles.transparent}
-          onPress={closeFilterModal}
+          onPress={pressedOutsideModal}
         ></Pressable>
         <LinearGradient
           colors={["#0053ad", "#001b85", "#000223"]}
@@ -227,10 +260,11 @@ export default function FilterModal({
                 elements.map((element) => (
                   <TouchableOpacity
                     key={element.element}
-                    style={styles.element}
+                    style={
+                      element.selected ? styles.elementSelected : styles.element
+                    }
                     onPress={() => {
                       handleSelectedElements(element.character);
-                      //   Alert.alert(element.element);
                     }}
                   >
                     <Image
@@ -239,7 +273,6 @@ export default function FilterModal({
                       }}
                       style={styles.image}
                     />
-                    {/* <Text style={styles.text}>{element.character}</Text> */}
                   </TouchableOpacity>
                 ))}
             </View>
@@ -360,14 +393,13 @@ export default function FilterModal({
             <CustomButton
               text='Clear'
               onPress={() => {
-                cancelFilter();
-                setSelectedElements([]);
+                resetFilter();
               }}
             />
             <CustomButton
               text='Filter'
               onPress={() => {
-                handleFilter(selectedElements);
+                submitFilter();
               }}
             />
           </View>
@@ -410,6 +442,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 8,
+  },
+  elementSelected: {
+    width: "25%",
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 8,
+    backgroundColor: "black",
   },
   cost: {
     width: "20%",
