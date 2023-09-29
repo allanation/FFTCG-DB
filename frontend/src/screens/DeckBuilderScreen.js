@@ -142,13 +142,28 @@ export default function DeckBuilderScreen({ navigation, route }) {
     }
   }
 
-  const handleFilter = (selectedElements, selectedCosts) => {
+  const handleFilter = (
+    selectedElements,
+    selectedCosts,
+    selectedTypes,
+    selectedRarities
+  ) => {
     setFilterVisible(false);
     // const filteredTrunk = originalTrunk.filter((card) =>
     //   selectedElements.some((e) => card.element.includes(e))
     // );
+
+    // NEED TO ADD IFS AND BUTS
+    // WORKS IN CONJUCTION BUT COST DOESN'T WORK ALONE BC THE WAY THE COOKIE CRUMBLES
+
+    // const filteredTrunk = originalTrunk.filter((card) =>
+    //   selectedCosts.includes(card.cost)
+    // );
+    // const filteredTrunk = originalTrunk.filter((card) =>
+    //   selectedTypes.includes(card.type)
+    // );
     const filteredTrunk = originalTrunk.filter((card) =>
-      selectedCosts.includes(card.cost)
+      selectedRarities.includes(card.rarity)
     );
 
     setTrunk(filteredTrunk);

@@ -75,8 +75,20 @@ export default function FilterModal({
       selected: false,
     },
   ];
-  const types = ["Backup", "Forward", "Monster", "Summon"];
-  const rarities = ["Common", "Rare", "Hero", "Legend", "Starter", "Promo"];
+  const typesArray = [
+    { type: "Backup", selected: false },
+    { type: "Forward", selected: false },
+    { type: "Monster", selected: false },
+    { type: "Summon", selected: false },
+  ];
+  const raritiesArray = [
+    { rarity: "Common", symbol: "C", selected: false },
+    { rarity: "Rare", symbol: "R", selected: false },
+    { rarity: "Hero", symbol: "H", selected: false },
+    { rarity: "Legend", symbol: "L", selected: false },
+    { rarity: "Starter", symbol: "S", selected: false },
+    { rarity: "Promo", symbol: "PR", selected: false },
+  ];
   const sets = [
     "OPUS I",
     "OPUS II",
@@ -238,6 +250,12 @@ export default function FilterModal({
   const [costs, setCosts] = useState(costsArray);
   const [selectedCosts, setSelectedCosts] = useState([]);
 
+  const [types, setTypes] = useState(typesArray);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+
+  const [rarities, setRarities] = useState(raritiesArray);
+  const [selectedRarities, setSelectedRarities] = useState([]);
+
   const cardPath =
     "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/elements/";
 
@@ -283,7 +301,11 @@ export default function FilterModal({
       });
       setCosts(updatedArray);
     } else {
-      setSelectedCosts([...selectedCosts, cost]);
+      if (cost === "10+") {
+        setSelectedCosts([...selectedCosts, 10, 11]);
+      } else {
+        setSelectedCosts([...selectedCosts, cost]);
+      }
       const updatedArray = costs.map((item) => {
         if (item.cost === cost) {
           // Update the object with the matching ID
@@ -295,8 +317,67 @@ export default function FilterModal({
     }
   }
 
+  function handleSelectedTypes(type) {
+    const typeInArray = selectedTypes.includes(type);
+
+    if (typeInArray) {
+      const newArray = selectedTypes.filter((e) => e !== type);
+      setSelectedTypes(newArray);
+      const updatedArray = types.map((item) => {
+        if (item.type === type) {
+          // Update the object with the matching ID
+          return { ...item, selected: false };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setTypes(updatedArray);
+    } else {
+      setSelectedTypes([...selectedTypes, type]);
+      const updatedArray = types.map((item) => {
+        if (item.type === type) {
+          // Update the object with the matching ID
+          return { ...item, selected: true };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setTypes(updatedArray);
+    }
+  }
+
+  function handleSelectedRarities(rarity) {
+    const rarityInArray = selectedRarities.includes(rarity);
+
+    if (rarityInArray) {
+      const newArray = selectedRarities.filter((e) => e !== rarity);
+      setSelectedRarities(newArray);
+      const updatedArray = rarities.map((item) => {
+        if (item.symbol === rarity) {
+          // Update the object with the matching ID
+          return { ...item, selected: false };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setRarities(updatedArray);
+    } else {
+      setSelectedRarities([...selectedRarities, rarity]);
+      const updatedArray = rarities.map((item) => {
+        if (item.symbol === rarity) {
+          // Update the object with the matching ID
+          return { ...item, selected: true };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setRarities(updatedArray);
+    }
+  }
+
   const submitFilter = () => {
-    handleFilter(selectedElements, selectedCosts);
+    handleFilter(
+      selectedElements,
+      selectedCosts,
+      selectedTypes,
+      selectedRarities
+    );
   };
 
   const resetFilter = () => {
@@ -305,12 +386,21 @@ export default function FilterModal({
     setSelectedElements([]);
     setCosts(costsArray);
     setSelectedCosts([]);
+    setTypes(typesArray);
+    setSelectedTypes([]);
+    setRarities(raritiesArray);
+    setSelectedRarities([]);
   };
 
   const pressedOutsideModal = () => {
     closeFilterModal;
     submitFilter();
-    if (selectedElements.length === 0 && selectedCosts.length === 0) {
+    if (
+      selectedElements.length === 0 ||
+      selectedCosts.length === 0 ||
+      selectedTypes.length === 0 ||
+      selectedRarities.length === 0
+    ) {
       cancelFilter();
     }
   };
@@ -370,13 +460,13 @@ export default function FilterModal({
               {types &&
                 types.map((type) => (
                   <Pressable
-                    key={type}
-                    style={styles.type}
+                    key={type.type}
+                    style={type.selected ? styles.typeSelected : styles.type}
                     onPress={() => {
-                      Alert.alert("type selected");
+                      handleSelectedTypes(type.type);
                     }}
                   >
-                    <Text style={styles.text}>{type}</Text>
+                    <Text style={styles.text}>{type.type}</Text>
                   </Pressable>
                 ))}
             </View>
@@ -385,13 +475,15 @@ export default function FilterModal({
               {rarities &&
                 rarities.map((rarity) => (
                   <Pressable
-                    key={rarity}
-                    style={styles.rarity}
+                    key={rarity.rarity}
+                    style={
+                      rarity.selected ? styles.raritySelected : styles.rarity
+                    }
                     onPress={() => {
-                      Alert.alert("rarity selected");
+                      handleSelectedRarities(rarity.symbol);
                     }}
                   >
-                    <Text style={styles.text}>{rarity}</Text>
+                    <Text style={styles.text}>{rarity.rarity}</Text>
                   </Pressable>
                 ))}
             </View>
@@ -510,6 +602,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
   },
+  typeSelected: {
+    width: "50%",
+    paddingVertical: 8,
+    alignItems: "center",
+    borderWidth: 2,
+    backgroundColor: "black",
+  },
   element: {
     width: "25%",
     borderWidth: 1,
@@ -545,6 +644,13 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderWidth: 2,
     alignItems: "center",
+  },
+  raritySelected: {
+    width: "50%",
+    paddingVertical: 8,
+    borderWidth: 2,
+    alignItems: "center",
+    backgroundColor: "black",
   },
   setsContainer: {
     width: "100%",
