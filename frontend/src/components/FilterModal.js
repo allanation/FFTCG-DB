@@ -32,9 +32,49 @@ export default function FilterModal({
     { character: "\u5149", element: "light", selected: false },
     { character: "\u95c7", element: "dark", selected: false },
   ];
-  const [elements, setElements] = useState(elementsArray);
 
-  const costs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "10+"];
+  const costsArray = [
+    {
+      cost: 1,
+      selected: false,
+    },
+    {
+      cost: 2,
+      selected: false,
+    },
+    {
+      cost: 3,
+      selected: false,
+    },
+    {
+      cost: 4,
+      selected: false,
+    },
+    {
+      cost: 5,
+      selected: false,
+    },
+    {
+      cost: 6,
+      selected: false,
+    },
+    {
+      cost: 7,
+      selected: false,
+    },
+    {
+      cost: 8,
+      selected: false,
+    },
+    {
+      cost: 9,
+      selected: false,
+    },
+    {
+      cost: "10+",
+      selected: false,
+    },
+  ];
   const types = ["Backup", "Forward", "Monster", "Summon"];
   const rarities = ["Common", "Rare", "Hero", "Legend", "Starter", "Promo"];
   const sets = [
@@ -192,7 +232,12 @@ export default function FilterModal({
   const icons = ["EX", "SPECIAL", "MULTI"];
   const powers = ["\u2264", "=", "\u2265"];
 
+  const [elements, setElements] = useState(elementsArray);
   const [selectedElements, setSelectedElements] = useState([]);
+
+  const [costs, setCosts] = useState(costsArray);
+  const [selectedCosts, setSelectedCosts] = useState([]);
+
   const cardPath =
     "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/elements/";
 
@@ -223,20 +268,49 @@ export default function FilterModal({
     }
   }
 
+  function handleSelectedCosts(cost) {
+    const costInArray = selectedCosts.includes(cost);
+
+    if (costInArray) {
+      const newArray = selectedCosts.filter((e) => e !== cost);
+      setSelectedCosts(newArray);
+      const updatedArray = costs.map((item) => {
+        if (item.cost === cost) {
+          // Update the object with the matching ID
+          return { ...item, selected: false };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setCosts(updatedArray);
+    } else {
+      setSelectedCosts([...selectedCosts, cost]);
+      const updatedArray = costs.map((item) => {
+        if (item.cost === cost) {
+          // Update the object with the matching ID
+          return { ...item, selected: true };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setCosts(updatedArray);
+    }
+  }
+
   const submitFilter = () => {
-    handleFilter(selectedElements);
+    handleFilter(selectedElements, selectedCosts);
   };
 
   const resetFilter = () => {
     cancelFilter();
     setElements(elementsArray);
     setSelectedElements([]);
+    setCosts(costsArray);
+    setSelectedCosts([]);
   };
 
   const pressedOutsideModal = () => {
     closeFilterModal;
     submitFilter();
-    if (selectedElements.length === 0) {
+    if (selectedElements.length === 0 && selectedCosts.length === 0) {
       cancelFilter();
     }
   };
@@ -280,15 +354,15 @@ export default function FilterModal({
             <View style={styles.typeContainer}>
               {costs &&
                 costs.map((cost) => (
-                  <Pressable
-                    key={cost}
-                    style={styles.cost}
+                  <TouchableOpacity
+                    key={cost.cost}
+                    style={cost.selected ? styles.costSelected : styles.cost}
                     onPress={() => {
-                      Alert.alert("cost selected");
+                      handleSelectedCosts(cost.cost);
                     }}
                   >
-                    <Text style={styles.text}>{cost}</Text>
-                  </Pressable>
+                    <Text style={styles.text}>{cost.cost}</Text>
+                  </TouchableOpacity>
                 ))}
             </View>
             <Label text='TYPES' />
@@ -457,6 +531,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  costSelected: {
+    width: "20%",
+    height: 36,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black",
   },
   rarity: {
     width: "50%",

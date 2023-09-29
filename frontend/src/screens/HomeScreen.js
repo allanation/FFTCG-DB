@@ -1,37 +1,45 @@
-import { View, Text, StyleSheet, TouchableOpacity, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Button,
+  Alert,
+} from "react-native";
 import React from "react";
 import TextBox from "../components/TextBox";
-import { LinearGradient } from "expo-linear-gradient";
-import FilterModal from "../components/FilterModal";
 import CustomButton from "../components/CustomButton";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       {/* <ScreenHeader header='HOME' /> */}
       <View style={styles.header}>
-        <Button title='Settings' />
-        <Text style={styles.text}>FFTCG</Text>
-        <Button title='Logout' />
+        <Icon
+          name='cog-outline'
+          size={36}
+          color='white'
+          style={styles.icons}
+          onPress={() => {
+            Alert.alert("Go to settings");
+          }}
+        />
+        <Text style={styles.text}>FINAL FANTASY TCG</Text>
+        <Icon
+          name='log-out-outline'
+          size={36}
+          color='white'
+          style={styles.icons}
+          onPress={() => {
+            Alert.alert("Logout");
+          }}
+        />
       </View>
       <TextBox text='Welcome to the unofficial FFTCG Deckbuilder' />
-      {/* <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Decks")}
-      >
-        <LinearGradient
-          colors={["rgba(0,27,133,0.8)", "transparent"]}
-          style={styles.outer}
-        >
-          <LinearGradient
-            colors={["rgba(0,83,173,0.8)", "transparent"]}
-            style={styles.inner}
-          >
-            <Text style={styles.text}>DECK</Text>
-          </LinearGradient>
-        </LinearGradient>
-      </TouchableOpacity> */}
-      {/* <FilterModal /> */}
+
+      <CustomButton text='DECK' onPress={() => navigation.navigate("Decks")} />
+      <CustomButton text='DECK' onPress={() => navigation.navigate("Decks")} />
       <CustomButton text='DECK' onPress={() => navigation.navigate("Decks")} />
     </View>
   );
@@ -61,7 +69,13 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 48,
-    fontFamily: "MartelSans-Bold",
+    fontFamily: "Final-Fantasy",
     color: "#d4d5d5",
+  },
+  icons: {
+    paddingHorizontal: 12,
+    paddingTop: 8,
+    backgroundColor: "#1a1b1b",
+    borderTopRightRadius: 8,
   },
 });

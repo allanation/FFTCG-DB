@@ -17,14 +17,13 @@ const styles = StyleSheet.create({
   container: {
     width: "80%",
     padding: 16,
-    backgroundColor: "",
     borderRadius: 8,
-    borderWidth: 4,
-    borderColor: "#d4d5d5",
+    borderWidth: 2,
+    borderColor: "#424542",
   },
   text: {
     fontFamily: "MartelSans-Bold",
-    fontSize: 16,
+    fontSize: 12,
     opacity: 1,
     color: "white",
   },

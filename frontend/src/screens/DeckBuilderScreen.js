@@ -142,13 +142,15 @@ export default function DeckBuilderScreen({ navigation, route }) {
     }
   }
 
-  const [filteredTrunk, setFilteredTrunk] = useState([]);
-
-  const handleFilter = (e) => {
+  const handleFilter = (selectedElements, selectedCosts) => {
     setFilterVisible(false);
+    // const filteredTrunk = originalTrunk.filter((card) =>
+    //   selectedElements.some((e) => card.element.includes(e))
+    // );
     const filteredTrunk = originalTrunk.filter((card) =>
-      e.some((e) => card.element.includes(e))
+      selectedCosts.includes(card.cost)
     );
+
     setTrunk(filteredTrunk);
   };
 

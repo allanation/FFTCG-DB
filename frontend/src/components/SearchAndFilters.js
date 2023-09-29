@@ -9,12 +9,7 @@ export default function SearchAndFilters({ openFilterModal, handleFilter }) {
         name='pie-chart-outline'
         size={36}
         color='white'
-        style={{
-          paddingHorizontal: 12,
-          paddingTop: 8,
-          backgroundColor: "#1a1b1b",
-          borderTopRightRadius: 8,
-        }}
+        style={styles.icons}
         onPress={() => {
           Alert.alert("DISPLAY STATS");
         }}
@@ -40,12 +35,7 @@ export default function SearchAndFilters({ openFilterModal, handleFilter }) {
           name='funnel-outline'
           size={36}
           color='white'
-          style={{
-            paddingHorizontal: 12,
-            paddingTop: 8,
-            backgroundColor: "#1a1b1b",
-            borderTopLeftRadius: 8,
-          }}
+          style={styles.icons}
         />
       </Pressable>
     </View>
@@ -81,5 +71,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
+  },
+  icons: {
+    paddingHorizontal: 12,
+    paddingTop: 8,
+    backgroundColor: "#1a1b1b",
+    borderTopRightRadius: 8,
   },
 });
