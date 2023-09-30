@@ -89,160 +89,203 @@ export default function FilterModal({
     { rarity: "Starter", symbol: "S", selected: false },
     { rarity: "Promo", symbol: "PR", selected: false },
   ];
-  const sets = [
-    "OPUS I",
-    "OPUS II",
-    "OPUS III",
-    "OPUS IV",
-    "OPUS V",
-    "OPUS VI",
-    "OPUS VII",
-    "OPUS VIII",
-    "OPUS IX",
-    "OPUS X",
-    "OPUS XI",
-    "OPUS XII",
-    "OPUS XIII",
-    "OPUS XIV",
-    "Crystal Dominion",
-    "Emissaries of Light",
-    "Rebellion's Call",
-    "Resurgence of Power",
-    "From Nightmares",
-    "Dawn of Heroes",
+
+  const setsArray = [
+    { set: "OPUS I", selected: false },
+    { set: "OPUS II", selected: false },
+    { set: "OPUS III", selected: false },
+    { set: "OPUS IV", selected: false },
+    { set: "OPUS V", selected: false },
+    { set: "OPUS VI", selected: false },
+    { set: "OPUS VII", selected: false },
+    { set: "OPUS VIII", selected: false },
+    { set: "OPUS IX", selected: false },
+    { set: "OPUS X", selected: false },
+    { set: "OPUS XI", selected: false },
+    { set: "OPUS XII", selected: false },
+    { set: "OPUS XIII", selected: false },
+    { set: "OPUS XIV", selected: false },
+    { set: "Crystal Dominion", selected: false },
+    { set: "Emissaries of Light", selected: false },
+    { set: "Rebellion's Call", selected: false },
+    { set: "Resurgence of Power", selected: false },
+    { set: "From Nightmares", selected: false },
+    { set: "Dawn of Heroes", selected: false },
   ];
-  const categories = [
+
+  const categoriesArray = [
     {
       value: "I",
-      title: "Final Fantasy I",
+      category: "Final Fantasy I",
+      selected: false,
     },
     {
       value: "II",
-      title: "Final Fantasy II",
+      category: "Final Fantasy II",
+      selected: false,
     },
     {
       value: "III",
-      title: "Final Fantasy III",
+      category: "Final Fantasy III",
+      selected: false,
     },
     {
       value: "IV",
-      title: "Final Fantasy IV",
+      category: "Final Fantasy IV",
+      selected: false,
     },
     {
       value: "V",
-      title: "Final Fantasy V",
+      category: "Final Fantasy V",
+      selected: false,
     },
     {
       value: "VI",
-      title: "Final Fantasy VI",
+      category: "Final Fantasy VI",
+      selected: false,
     },
     {
       value: "VII",
-      title: "Final Fantasy VII",
+      category: "Final Fantasy VII",
+      selected: false,
     },
     {
       value: "VIII",
-      title: "Final Fantasy VIII",
+      category: "Final Fantasy VIII",
+      selected: false,
     },
     {
       value: "IX",
-      title: "Final Fantasy IX",
+      category: "Final Fantasy IX",
+      selected: false,
     },
     {
       value: "X",
-      title: "Final Fantasy X",
+      category: "Final Fantasy X",
+      selected: false,
     },
     {
       value: "XI",
-      title: "Final Fantasy XI",
+      category: "Final Fantasy XI",
+      selected: false,
     },
     {
       value: "XII",
-      title: "Final Fantasy XI",
+      category: "Final Fantasy XI",
+      selected: false,
     },
     {
       value: "XIII",
-      title: "Final Fantasy XI",
+      category: "Final Fantasy XI",
+      selected: false,
     },
     {
       value: "XIV",
-      title: "Final Fantasy XIV",
+      category: "Final Fantasy XIV",
+      selected: false,
     },
     {
       value: "XV",
-      title: "Final Fantasy XV",
+      category: "Final Fantasy XV",
+      selected: false,
     },
     {
       value: "DFF",
-      title: "Dissidia Final Fantasy",
+      category: "Dissidia Final Fantasy",
+      selected: false,
     },
     {
       value: "FFL",
-      title: "Final Fantasy Legends",
+      category: "Final Fantasy Legends",
+      selected: false,
     },
     {
       value: "FFT",
-      title: "Final Fantasy Tactics",
+      category: "Final Fantasy Tactics",
+      selected: false,
     },
     {
       value: "FFEX",
-      title: "Final Fantasy Explorer",
+      category: "Final Fantasy Explorer",
+      selected: false,
     },
     {
       value: "LOV",
-      title: "Lord of Vermillion",
+      category: "Lord of Vermillion",
+      selected: false,
     },
     {
       value: "TYPE-0",
-      title: "Final Fantasy Type-0",
+      category: "Final Fantasy Type-0",
+      selected: false,
     },
     {
       value: "WOFF",
-      title: "World of Final Fantasy",
+      category: "World of Final Fantasy",
+      selected: false,
     },
     {
       value: "FFCC",
-      title: "FF Crystal Chronicles",
+      category: "FF Crystal Chronicles",
+      selected: false,
     },
     {
       value: "Crystal Hunt",
-      title: "FF Crystal Hunt",
+      category: "FF Crystal Hunt",
+      selected: false,
     },
     {
       value: "FFTA",
-      title: "FF Tactics Advance",
+      category: "FF Tactics Advance",
+      selected: false,
     },
     {
       value: "FFTA2",
-      title: "FF Tactics A2",
+      category: "FF Tactics A2",
+      selected: false,
     },
     {
       value: "MOBIUS",
-      title: "Mobius Final Fantasy",
+      category: "Mobius Final Fantasy",
+      selected: false,
     },
     {
       value: "THEATRHYTHM",
-      title: "Theatrhythm Final Fantasy",
+      category: "Theatrhythm Final Fantasy",
+      selected: false,
     },
     {
       value: "PICTLOGICA",
-      title: "Pictlogica Final Fantasy",
+      category: "Pictlogica Final Fantasy",
+      selected: false,
     },
     {
       value: "Special",
-      title: "Special",
+      category: "Special",
+      selected: false,
     },
     {
       value: "FFBE",
-      title: "Final Fantasy Brave Exvius",
+      category: "Final Fantasy Brave Exvius",
+      selected: false,
     },
     {
       value: "FFRK",
-      title: "Final Fantasy Record Keeper",
+      category: "Final Fantasy Record Keeper",
+      selected: false,
     },
   ];
-  const icons = ["EX", "SPECIAL", "MULTI"];
-  const powers = ["\u2264", "=", "\u2265"];
+
+  const iconsArray = [
+    { icon: "EX", selected: false },
+    { icon: "SPECIAL", selected: false },
+    { icon: "MULTI", selected: false },
+  ];
+  const powersArray = [
+    { power: "\u2264", selected: false },
+    { power: "=", selected: false },
+    { power: "\u2265", selected: false },
+  ];
 
   const [elements, setElements] = useState(elementsArray);
   const [selectedElements, setSelectedElements] = useState([]);
@@ -255,6 +298,18 @@ export default function FilterModal({
 
   const [rarities, setRarities] = useState(raritiesArray);
   const [selectedRarities, setSelectedRarities] = useState([]);
+
+  const [sets, setSets] = useState(setsArray);
+  const [selectedSets, setSelectedSets] = useState([]);
+
+  const [categories, setCategories] = useState(categoriesArray);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const [icons, setIcons] = useState(iconsArray);
+  const [selectedIcons, setSelectedIcons] = useState([]);
+
+  const [powers, setPowers] = useState(powersArray);
+  const [selectedPowers, setSelectedPowers] = useState([]);
 
   const cardPath =
     "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/elements/";
@@ -371,12 +426,98 @@ export default function FilterModal({
     }
   }
 
+  function handleSelectedSets(set) {
+    const setInArray = selectedSets.includes(set);
+
+    if (setInArray) {
+      const newArray = selectedSets.filter((e) => e !== set);
+      setSelectedSets(newArray);
+      const updatedArray = sets.map((item) => {
+        if (item.set === set) {
+          // Update the object with the matching ID
+          return { ...item, selected: false };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setSets(updatedArray);
+    } else {
+      setSelectedSets([...selectedSets, set]);
+      const updatedArray = sets.map((item) => {
+        if (item.set === set) {
+          // Update the object with the matching ID
+          return { ...item, selected: true };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setSets(updatedArray);
+    }
+  }
+
+  function handleSelectedCategories(category) {
+    const categoryInArray = selectedCategories.includes(category);
+
+    if (categoryInArray) {
+      const newArray = selectedCategories.filter((e) => e !== category);
+      setSelectedCategories(newArray);
+      const updatedArray = categories.map((item) => {
+        if (item.value === category) {
+          // Update the object with the matching ID
+          return { ...item, selected: false };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setCategories(updatedArray);
+    } else {
+      setSelectedCategories([...selectedCategories, category]);
+      const updatedArray = categories.map((item) => {
+        if (item.value === category) {
+          // Update the object with the matching ID
+          return { ...item, selected: true };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setCategories(updatedArray);
+    }
+  }
+
+  function handleSelectedIcons(icon) {
+    const iconInArray = selectedIcons.includes(icon);
+
+    if (iconInArray) {
+      const newArray = selectedIcons.filter((e) => e !== icon);
+      setSelectedIcons(newArray);
+      const updatedArray = icons.map((item) => {
+        if (item.icon === icon) {
+          // Update the object with the matching ID
+          return { ...item, selected: false };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setIcons(updatedArray);
+    } else {
+      setSelectedIcons([...selectedIcons, icon]);
+      const updatedArray = icons.map((item) => {
+        if (item.icon === icon) {
+          // Update the object with the matching ID
+          return { ...item, selected: true };
+        }
+        return item; // Keep other objects unchanged
+      });
+      setIcons(updatedArray);
+    }
+  }
+
+  const handleSelectedPower = (power) => {};
+
   const submitFilter = () => {
     handleFilter(
       selectedElements,
       selectedCosts,
       selectedTypes,
-      selectedRarities
+      selectedRarities,
+      selectedSets,
+      selectedCategories,
+      selectedIcons
     );
   };
 
@@ -390,6 +531,12 @@ export default function FilterModal({
     setSelectedTypes([]);
     setRarities(raritiesArray);
     setSelectedRarities([]);
+    setSets(setsArray);
+    setSelectedSets([]);
+    setCategories(categoriesArray);
+    setSelectedCategories([]);
+    setIcons(iconsArray);
+    setSelectedIcons([]);
   };
 
   const pressedOutsideModal = () => {
@@ -399,7 +546,10 @@ export default function FilterModal({
       selectedElements.length === 0 ||
       selectedCosts.length === 0 ||
       selectedTypes.length === 0 ||
-      selectedRarities.length === 0
+      selectedRarities.length === 0 ||
+      selectedSets.length === 0 ||
+      selectedCategories.length === 0 ||
+      selectedIcons.length === 0
     ) {
       cancelFilter();
     }
@@ -492,13 +642,13 @@ export default function FilterModal({
               {sets &&
                 sets.map((set) => (
                   <Pressable
-                    key={set}
-                    style={styles.set}
+                    key={set.set}
+                    style={set.selected ? styles.setSelected : styles.set}
                     onPress={() => {
-                      Alert.alert("set selected");
+                      handleSelectedSets(set.set);
                     }}
                   >
-                    <Text style={styles.text}>{set}</Text>
+                    <Text style={styles.text}>{set.set}</Text>
                   </Pressable>
                 ))}
             </ScrollView>
@@ -508,12 +658,12 @@ export default function FilterModal({
                 categories.map((category) => (
                   <Pressable
                     key={category.value}
-                    style={styles.set}
+                    style={category.selected ? styles.setSelected : styles.set}
                     onPress={() => {
-                      Alert.alert("category selected");
+                      handleSelectedCategories(category.value);
                     }}
                   >
-                    <Text style={styles.text}>{category.title}</Text>
+                    <Text style={styles.text}>{category.category}</Text>
                   </Pressable>
                 ))}
             </ScrollView>
@@ -522,13 +672,13 @@ export default function FilterModal({
               {icons &&
                 icons.map((icon) => (
                   <Pressable
-                    key={icon}
-                    style={styles.icon}
+                    key={icon.icon}
+                    style={icon.selected ? styles.iconSelected : styles.icon}
                     onPress={() => {
-                      Alert.alert("icon selected");
+                      handleSelectedIcons(icon.icon);
                     }}
                   >
-                    <Text style={styles.text}>{icon}</Text>
+                    <Text style={styles.text}>{icon.icon}</Text>
                   </Pressable>
                 ))}
             </View>
@@ -538,12 +688,13 @@ export default function FilterModal({
                 {powers &&
                   powers.map((power) => (
                     <Pressable
+                      key={power.power}
                       style={styles.power}
                       onPress={() => {
                         Alert.alert("power selected");
                       }}
                     >
-                      <Text style={styles.text}>{power}</Text>
+                      <Text style={styles.text}>{power.power}</Text>
                     </Pressable>
                   ))}
               </View>
@@ -551,6 +702,9 @@ export default function FilterModal({
                 style={styles.powerTextInput}
                 keyboardType='number-pad'
                 maxLength={5}
+                onChangeText={(e) => {
+                  setPowers(e);
+                }}
               />
             </View>
           </ScrollView>
@@ -664,11 +818,25 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     alignItems: "center",
   },
+  setSelected: {
+    width: "100%",
+    padding: 4,
+    borderBottomWidth: 2,
+    alignItems: "center",
+    backgroundColor: "black",
+  },
   icon: {
     width: "33.33%",
     paddingVertical: 8,
     borderWidth: 2,
     alignItems: "center",
+  },
+  iconSelected: {
+    width: "33.33%",
+    paddingVertical: 8,
+    borderWidth: 2,
+    alignItems: "center",
+    backgroundColor: "black",
   },
   powerContainer: {
     width: "100%",

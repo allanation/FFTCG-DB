@@ -146,7 +146,10 @@ export default function DeckBuilderScreen({ navigation, route }) {
     selectedElements,
     selectedCosts,
     selectedTypes,
-    selectedRarities
+    selectedRarities,
+    selectedSets,
+    selectedCategories,
+    selectedIcons
   ) => {
     setFilterVisible(false);
     // const filteredTrunk = originalTrunk.filter((card) =>
@@ -159,14 +162,48 @@ export default function DeckBuilderScreen({ navigation, route }) {
     // const filteredTrunk = originalTrunk.filter((card) =>
     //   selectedCosts.includes(card.cost)
     // );
+
     // const filteredTrunk = originalTrunk.filter((card) =>
     //   selectedTypes.includes(card.type)
     // );
-    const filteredTrunk = originalTrunk.filter((card) =>
-      selectedRarities.includes(card.rarity)
-    );
 
-    setTrunk(filteredTrunk);
+    // const filteredTrunk = originalTrunk.filter((card) =>
+    //   selectedRarities.includes(card.rarity)
+    // );
+
+    // const filteredTrunk = originalTrunk.filter((card) =>
+    //   selectedSets.includes(card.set)
+    // );
+
+    // const filteredTrunk = originalTrunk.filter((card) =>
+    //   selectedCategories.includes(card.category_1)
+    // );
+
+    // const filteredTrunk = originalTrunk.filter((card) =>
+    //   selectedCategories.includes(card.category_2)
+    // );
+
+    // if (selectedIcons.includes("EX")) {
+    //   const filteredTrunk = originalTrunk.filter(
+    //     (card) => card.ex_burst === true
+    //   );
+    //   setTrunk(filteredTrunk);
+    // }
+    // if (selectedIcons.includes("SPECIAL")) {
+    //   const filteredTrunk = originalTrunk.filter((card) =>
+    //     card.text.includes("[[s]]")
+    //   );
+    //   setTrunk(filteredTrunk);
+    // }
+
+    // if (selectedIcons.includes("MULTI")) {
+    //   const filteredTrunk = originalTrunk.filter(
+    //     (card) => card.multicard === true
+    //   );
+    //   setTrunk(filteredTrunk);
+    // }
+
+    // setTrunk(filteredTrunk);
   };
 
   const cancelFilter = () => {
