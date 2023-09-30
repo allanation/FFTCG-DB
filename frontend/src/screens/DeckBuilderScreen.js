@@ -149,7 +149,9 @@ export default function DeckBuilderScreen({ navigation, route }) {
     selectedRarities,
     selectedSets,
     selectedCategories,
-    selectedIcons
+    selectedIcons,
+    selectedPowerMath,
+    powerInteger
   ) => {
     setFilterVisible(false);
     // const filteredTrunk = originalTrunk.filter((card) =>
@@ -202,6 +204,33 @@ export default function DeckBuilderScreen({ navigation, route }) {
     //   );
     //   setTrunk(filteredTrunk);
     // }
+
+    if (selectedPowerMath === "=") {
+      const filteredTrunk = originalTrunk.filter(
+        (card) => card.power === powerInteger
+      );
+      setTrunk(filteredTrunk);
+    }
+    if (selectedPowerMath === "\u2264") {
+      const forwardsOnly = originalTrunk.filter(
+        (card) => card.type === "Forward"
+      );
+
+      const filteredTrunk = forwardsOnly.filter(
+        (card) => card.power <= powerInteger
+      );
+      setTrunk(filteredTrunk);
+    }
+    if (selectedPowerMath === "\u2265") {
+      const forwardsOnly = originalTrunk.filter(
+        (card) => card.type === "Forward"
+      );
+
+      const filteredTrunk = forwardsOnly.filter(
+        (card) => card.power >= powerInteger
+      );
+      setTrunk(filteredTrunk);
+    }
 
     // setTrunk(filteredTrunk);
   };

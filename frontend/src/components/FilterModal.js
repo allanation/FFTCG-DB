@@ -281,10 +281,11 @@ export default function FilterModal({
     { icon: "SPECIAL", selected: false },
     { icon: "MULTI", selected: false },
   ];
+
   const powersArray = [
-    { power: "\u2264", selected: false },
-    { power: "=", selected: false },
-    { power: "\u2265", selected: false },
+    { powerMath: "\u2264", selected: false },
+    { powerMath: "=", selected: true },
+    { powerMath: "\u2265", selected: false },
   ];
 
   const [elements, setElements] = useState(elementsArray);
@@ -309,7 +310,8 @@ export default function FilterModal({
   const [selectedIcons, setSelectedIcons] = useState([]);
 
   const [powers, setPowers] = useState(powersArray);
-  const [selectedPowers, setSelectedPowers] = useState([]);
+  const [selectedPower, setSelectedPower] = useState("");
+  const [selectedPowerMath, setSelectedPowerMath] = useState("=");
 
   const cardPath =
     "/Users/allan/Documents/GitHub/FFTCG-DB/frontend/assets/elements/";
@@ -507,9 +509,33 @@ export default function FilterModal({
     }
   }
 
-  const handleSelectedPower = (power) => {};
+  const handleSelectedPowerMath = (powerMath) => {
+    setSelectedPowerMath(powerMath);
+    const unselectPowerMath = powersArray.map((item) => {
+      if (item.selected === true) {
+        return { ...item, selected: false };
+      }
+      return item;
+    });
+
+    const updatedArray = unselectPowerMath.map((item) => {
+      if (item.powerMath === powerMath) {
+        // Update the object with the matching ID
+        return { ...item, selected: true };
+      }
+      return item; // Keep other objects unchanged
+    });
+
+    setPowers(updatedArray);
+  };
+
+  const handleSelectedPower = (power) => {
+    setSelectedPower(power);
+  };
 
   const submitFilter = () => {
+    const powerInteger = parseInt(selectedPower, 10);
+
     handleFilter(
       selectedElements,
       selectedCosts,
@@ -517,7 +543,9 @@ export default function FilterModal({
       selectedRarities,
       selectedSets,
       selectedCategories,
-      selectedIcons
+      selectedIcons,
+      selectedPowerMath,
+      powerInteger
     );
   };
 
@@ -537,6 +565,9 @@ export default function FilterModal({
     setSelectedCategories([]);
     setIcons(iconsArray);
     setSelectedIcons([]);
+    setPowers(powersArray);
+    setSelectedPowerMath("=");
+    setSelectedPower("");
   };
 
   const pressedOutsideModal = () => {
@@ -688,13 +719,15 @@ export default function FilterModal({
                 {powers &&
                   powers.map((power) => (
                     <Pressable
-                      key={power.power}
-                      style={styles.power}
+                      key={power.powerMath}
+                      style={
+                        power.selected ? styles.powerSelected : styles.power
+                      }
                       onPress={() => {
-                        Alert.alert("power selected");
+                        handleSelectedPowerMath(power.powerMath);
                       }}
                     >
-                      <Text style={styles.text}>{power.power}</Text>
+                      <Text style={styles.text}>{power.powerMath}</Text>
                     </Pressable>
                   ))}
               </View>
@@ -702,9 +735,7 @@ export default function FilterModal({
                 style={styles.powerTextInput}
                 keyboardType='number-pad'
                 maxLength={5}
-                onChangeText={(e) => {
-                  setPowers(e);
-                }}
+                onChangeText={handleSelectedPower}
               />
             </View>
           </ScrollView>
@@ -853,6 +884,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     paddingVertical: 8,
+  },
+  powerSelected: {
+    width: "33%",
+    borderWidth: 2,
+    alignItems: "center",
+    paddingVertical: 8,
+    backgroundColor: "black",
   },
   powerTextInput: {
     width: "100%",
