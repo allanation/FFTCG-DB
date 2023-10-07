@@ -1,27 +1,42 @@
-import { Text, StyleSheet, Pressable, ImageBackground } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  Pressable,
+  ImageBackground,
+  Image,
+} from "react-native";
 import React from "react";
 
 export default function DeckBox({ deck, onPress }) {
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      <ImageBackground
-        source={require("../../assets/titlescreens/opus19.jpg")}
-        resizeMode='cover'
+      <Image
+        source={require("./../../assets/blueDeckBox.png")}
+        resizeMode='contain'
         style={styles.deckbox}
-      >
-        <Text>{deck.title}</Text>
-      </ImageBackground>
+      ></Image>
+      <Text numberOfLines={1} style={styles.text}>
+        {deck.title}
+      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: "25%",
-    height: "33%",
+    width: "33%",
+    height: "100%",
+    paddingBottom: 8,
   },
   deckbox: {
     width: "100%",
     height: "100%",
+  },
+  text: {
+    fontFamily: "MartelSans-Bold",
+    width: "75%",
+    alignSelf: "center",
+    color: "white",
+    textAlign: "center",
   },
 });

@@ -142,6 +142,8 @@ export default function DeckBuilderScreen({ navigation, route }) {
     }
   }
 
+  const [filteredTrunk, setFilteredTrunk] = useState(originalTrunk);
+
   const handleFilter = (
     selectedElements,
     selectedCosts,
@@ -154,25 +156,55 @@ export default function DeckBuilderScreen({ navigation, route }) {
     powerInteger
   ) => {
     setFilterVisible(false);
+
+    const filterCriteria = [
+      // { property: "element", value: selectedElements },
+      { property: "cost", value: selectedCosts },
+      { property: "type", value: selectedTypes },
+      { property: "rarity", value: selectedRarities },
+      { property: "set", value: selectedSets },
+      // { property: "category", value: selectedCategories },
+    ];
+
+    // <3 COMBINING
+
+    const filteredTrunk = originalTrunk.filter((card) => {
+      return filterCriteria.every((criteria) => {
+        const { property, value } = criteria;
+        if (value === null || value === undefined) {
+          return true; // If value is undefined or null, don't filter by this criterion
+        }
+        if (Array.isArray(value)) {
+          return value.some(
+            (val) =>
+              Array.isArray(card[property]) && card[property].includes(val)
+          );
+        }
+        return card[property] === value;
+      });
+    });
+
+    // //ELEMENT
     // const filteredTrunk = originalTrunk.filter((card) =>
     //   selectedElements.some((e) => card.element.includes(e))
     // );
 
-    // NEED TO ADD IFS AND BUTS
-    // WORKS IN CONJUCTION BUT COST DOESN'T WORK ALONE BC THE WAY THE COOKIE CRUMBLES
-
-    // const filteredTrunk = originalTrunk.filter((card) =>
+    // //COST
+    // const filteredTrunk2 = filteredTrunk.filter((card) =>
     //   selectedCosts.includes(card.cost)
     // );
 
+    // //TYPE
     // const filteredTrunk = originalTrunk.filter((card) =>
     //   selectedTypes.includes(card.type)
     // );
 
+    //RARITY
     // const filteredTrunk = originalTrunk.filter((card) =>
     //   selectedRarities.includes(card.rarity)
     // );
 
+    //SET
     // const filteredTrunk = originalTrunk.filter((card) =>
     //   selectedSets.includes(card.set)
     // );
@@ -205,34 +237,21 @@ export default function DeckBuilderScreen({ navigation, route }) {
     //   setTrunk(filteredTrunk);
     // }
 
-    if (selectedPowerMath === "=") {
-      const filteredTrunk = originalTrunk.filter(
-        (card) => card.power === powerInteger
-      );
-      setTrunk(filteredTrunk);
-    }
-    if (selectedPowerMath === "\u2264") {
-      const forwardsOnly = originalTrunk.filter(
-        (card) => card.type === "Forward"
-      );
+    // if (selectedPowerMath === "=") {
+    //   filteredTrunk.filter((card) => card.power === powerInteger);
+    // }
+    // if (selectedPowerMath === "\u2264") {
+    //   filteredTrunk.filter((card) => card.type === "Forward");
 
-      const filteredTrunk = forwardsOnly.filter(
-        (card) => card.power <= powerInteger
-      );
-      setTrunk(filteredTrunk);
-    }
-    if (selectedPowerMath === "\u2265") {
-      const forwardsOnly = originalTrunk.filter(
-        (card) => card.type === "Forward"
-      );
+    //   filteredTrunk.filter((card) => card.power <= powerInteger);
+    // }
+    // if (selectedPowerMath === "\u2265") {
+    //   filteredTrunk.filter((card) => card.type === "Forward");
 
-      const filteredTrunk = forwardsOnly.filter(
-        (card) => card.power >= powerInteger
-      );
-      setTrunk(filteredTrunk);
-    }
+    //   filteredTrunk.filter((card) => card.power >= powerInteger);
+    // }
 
-    // setTrunk(filteredTrunk);
+    setTrunk(filteredTrunk);
   };
 
   const cancelFilter = () => {

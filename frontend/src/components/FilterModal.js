@@ -810,7 +810,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   cost: {
-    width: "20%",
+    width: "19.9%",
     height: 36,
     borderWidth: 1,
     alignItems: "center",

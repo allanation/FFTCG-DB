@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDecksContext } from "../hooks/useDecksContext";
 import axios from "axios";
@@ -6,6 +6,8 @@ import axios from "axios";
 //components
 import DeckBox from "../components/DeckBox";
 import ScreenHeader from "../components/ScreenHeader";
+import Header from "../components/Header";
+import Label from "../components/Label";
 
 export default function DecksScreen({ navigation }) {
   const { dispatch } = useDecksContext();
@@ -23,20 +25,22 @@ export default function DecksScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScreenHeader header='DECKS' />
-      <Text style={styles.text}>DECKS</Text>
-      <View style={styles.decks}>
-        {decks &&
-          decks.map((deck) => (
-            <DeckBox
-              key={deck._id}
-              deck={deck}
-              onPress={() =>
-                navigation.navigate("DeckBuilder", { deckId: deck._id })
-              }
-            />
-          ))}
-      </View>
+      <Header />
+      <Label text='DECKS' />
+      <ScrollView style={styles.deckContainer}>
+        <View style={styles.decks}>
+          {decks &&
+            decks.map((deck) => (
+              <DeckBox
+                key={deck._id}
+                deck={deck}
+                onPress={() =>
+                  navigation.navigate("DeckBuilder", { deckId: deck._id })
+                }
+              />
+            ))}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -45,14 +49,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1a1b1b",
-    justifyContent: "center",
     gap: "12%",
   },
   text: { color: "#d4d5d5", fontFamily: "Final-Fantasy", fontSize: 48 },
   decks: {
-    backgroundColor: "pink",
-    width: "100%",
-    height: "50%",
     flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+  },
+  deckContainer: {
+    margin: 16,
   },
 });

@@ -20,5 +20,6 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "Final-Fantasy",
     fontSize: 54,
+    color: "#d4d5d5",
   },
 });

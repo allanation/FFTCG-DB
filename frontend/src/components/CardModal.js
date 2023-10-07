@@ -30,14 +30,14 @@ const CardModal = ({ isVisible, card, closeModal }) => {
           resizeMode='contain'
         />
         {/* <TextBox text={card.text} /> */}
-        <LinearGradient
+        {/* <LinearGradient
           colors={["#0053ad", "#001b85", "#000223"]}
           style={styles.effectBox}
         >
           <ScrollView>
             <Text style={styles.text}>{card.text}</Text>
           </ScrollView>
-        </LinearGradient>
+        </LinearGradient> */}
         <Button title='Close' onPress={closeModal} />
       </BlurView>
     </Modal>

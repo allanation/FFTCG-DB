@@ -29,16 +29,16 @@ export default function TrunkDisplay({ trunk, handleAddingCard, openModal }) {
               }}
               style={styles.card}
             >
-              <Image
+              {/* <Image
                 source={{ uri: cardPath1 + card._id + cardPath2 }}
                 style={styles.image}
                 resizeMode='contain'
-              />
-              {/* <Image
+              /> */}
+              <Image
                 source={{ uri: card.images.thumbs[0] }}
                 style={styles.image}
                 resizeMode='contain'
-              /> */}
+              />
             </TouchableOpacity>
           ))}
       </View>
