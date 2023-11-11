@@ -7,7 +7,7 @@ export default function TitleScreen({ navigation }) {
   return (
     <Pressable
       style={styles.container}
-      onPress={() => navigation.navigate("Home")}
+      onPress={() => navigation.navigate("MainTabs")}
     >
       <ImageBackground
         source={{

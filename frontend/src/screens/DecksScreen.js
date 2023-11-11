@@ -8,6 +8,7 @@ import DeckBox from "../components/DeckBox";
 import ScreenHeader from "../components/ScreenHeader";
 import Header from "../components/Header";
 import Label from "../components/Label";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DecksScreen({ navigation }) {
   const { dispatch } = useDecksContext();
@@ -24,24 +25,26 @@ export default function DecksScreen({ navigation }) {
   }, [dispatch]);
 
   return (
-    <View style={styles.container}>
-      <Header />
-      <Label text='DECKS' />
-      <ScrollView style={styles.deckContainer}>
-        <View style={styles.decks}>
-          {decks &&
-            decks.map((deck) => (
-              <DeckBox
-                key={deck._id}
-                deck={deck}
-                onPress={() =>
-                  navigation.navigate("DeckBuilder", { deckId: deck._id })
-                }
-              />
-            ))}
-        </View>
-      </ScrollView>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#1a1b1b" }}>
+      <View style={styles.container}>
+        <Header />
+        <Label text='DECKS' />
+        <ScrollView style={styles.deckContainer}>
+          <View style={styles.decks}>
+            {decks &&
+              decks.map((deck) => (
+                <DeckBox
+                  key={deck._id}
+                  deck={deck}
+                  onPress={() =>
+                    navigation.navigate("DeckBuilder", { deckId: deck._id })
+                  }
+                />
+              ))}
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 }
 

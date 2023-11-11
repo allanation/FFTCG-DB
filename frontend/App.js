@@ -11,6 +11,8 @@ import { useCallback } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import DecksScreen from "./src/screens/DecksScreen";
 import { DecksContextProvider } from "./src/context/DecksContext";
+import TabNavigator from "./src/components/TabNavigator";
+
 const Stack = createNativeStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
@@ -33,41 +35,31 @@ export default function App() {
     return null;
   }
 
+
   return (
-    <SafeAreaProvider>
-      <SafeAreaView
-        style={styles.container}
-        onLayout={onLayoutRootView}
-        forceInset={{ bottom: "never" }}
-      >
-        <DecksContextProvider>
+    <SafeAreaProvider
+      style={styles.container}
+      onLayout={onLayoutRootView}
+      forceInset={{ bottom: "never" }}
+    >
+      {/* <SafeAreaView > */}
+      <DecksContextProvider>
+        <NavigationContainer
+          style={styles.container}
+          onLayout={onLayoutRootView}
+          forceInset={{ bottom: "never" }}
+        >
           <StatusBar style='light' />
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName='Title'>
-              <Stack.Screen
-                name='Title'
-                component={TitleScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name='Home'
-                component={HomeScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name='Decks'
-                component={DecksScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name='DeckBuilder'
-                component={DeckBuilderScreen}
-                options={{ headerShown: false }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </DecksContextProvider>
-      </SafeAreaView>
+          <Stack.Navigator
+            initialRouteName='Title'
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name='Title' component={TitleScreen} />
+            <Stack.Screen name='MainTabs' component={TabNavigator} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </DecksContextProvider>
+      {/* </SafeAreaView> */}
     </SafeAreaProvider>
   );
 }

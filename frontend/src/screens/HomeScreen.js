@@ -13,16 +13,22 @@ import Icon from "react-native-vector-icons/Ionicons";
 import ChocoboCorner from "../components/ChocoboCorner";
 import Header from "../components/Header";
 import Label from "../components/Label";
-import BottomNavigator from "../components/BottomNavigator";
+import { SafeAreaView } from "react-native-safe-area-context";
+// import BottomNavigator from "../components/BottomNavigator";
 
 export default function HomeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Header />
-      <ChocoboCorner />
-      <CustomButton text='DECK' onPress={() => navigation.navigate("Decks")} />
-      {/* <BottomNavigator /> */}
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#1a1b1b" }}>
+      <View style={styles.container}>
+        <Header />
+        <ChocoboCorner />
+        <CustomButton
+          text='DECK'
+          onPress={() => navigation.navigate("Decks")}
+        />
+        {/* <BottomNavigator /> */}
+      </View>
+    </SafeAreaView>
   );
 }
 

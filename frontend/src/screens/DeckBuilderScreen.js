@@ -17,6 +17,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import SearchAndFilters from "../components/SearchAndFilters";
 import FilterModal from "../components/FilterModal";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DeckBuilderScreen({ navigation, route }) {
   const { deckId } = route.params;
@@ -260,75 +261,81 @@ export default function DeckBuilderScreen({ navigation, route }) {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Icon
-          name='chevron-back-circle-outline'
-          size={32}
-          color='white'
-          style={styles.icon}
-          onPress={() => {
-            navigation.navigate("Decks");
-          }}
-        />
-
-        <View
-          // onPress={handleTitleChange}
-          style={styles.titleContainer}
-        >
-          <Text style={styles.text} adjustsFontSizeToFit numberOfLines={1}>
-            {title}
-          </Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#1a1b1b" }}>
+      <View style={styles.container}>
+        <View style={styles.header}>
           <Icon
-            name='create-outline'
-            size={24}
+            name='chevron-back-circle-outline'
+            size={32}
             color='white'
             style={styles.icon}
-            onPress={handleTitleChange}
+            onPress={() => {
+              navigation.navigate("Decks");
+            }}
+          />
+
+          <View
+            // onPress={handleTitleChange}
+            style={styles.titleContainer}
+          >
+            <Text style={styles.text} adjustsFontSizeToFit numberOfLines={1}>
+              {title}
+            </Text>
+            <Icon
+              name='create-outline'
+              size={24}
+              color='white'
+              style={styles.icon}
+              onPress={handleTitleChange}
+            />
+          </View>
+          <Icon
+            name='save-outline'
+            size={28}
+            color='white'
+            style={styles.icon}
+            onPress={submitUpdatedDeck}
           />
         </View>
-        <Icon
-          name='save-outline'
-          size={28}
-          color='white'
-          style={styles.icon}
-          onPress={submitUpdatedDeck}
+
+        <Label text='DECK' />
+
+        <DeckDisplay
+          deck={deck}
+          handleRemovingCard={handleRemovingCard}
+          openModal={openModal}
+        />
+
+        <Label text='CARDS' />
+
+        <TrunkDisplay
+          trunk={trunk}
+          openModal={openModal}
+          handleAddingCard={handleAddingCard}
+        />
+
+        <SearchAndFilters openFilterModal={openFilterModal} />
+
+        <FilterModal
+          isFilterVisible={isFilterVisible}
+          closeFilterModal={closeFilterModal}
+          handleFilter={handleFilter}
+          cancelFilter={cancelFilter}
+        />
+
+        <CardModal
+          isVisible={isModalVisible}
+          card={selectedCard}
+          closeModal={closeModal}
         />
       </View>
-
-      <Label text='DECK' />
-
-      <DeckDisplay
-        deck={deck}
-        handleRemovingCard={handleRemovingCard}
-        openModal={openModal}
-      />
-
-      <Label text='CARDS' />
-
-      <TrunkDisplay
-        trunk={trunk}
-        openModal={openModal}
-        handleAddingCard={handleAddingCard}
-      />
-
-      <SearchAndFilters openFilterModal={openFilterModal} />
-
-      <FilterModal
-        isFilterVisible={isFilterVisible}
-        closeFilterModal={closeFilterModal}
-        handleFilter={handleFilter}
-        cancelFilter={cancelFilter}
-      />
-
-      <CardModal
-        isVisible={isModalVisible}
-        card={selectedCard}
-        closeModal={closeModal}
-      />
-    </View>
+    </SafeAreaView>
   );
 }
+
+DeckBuilderScreen.navigationOptions = {
+  tabBarVisible: false, // Hide the bottom navigation bar on this screen
+};
 
 const styles = StyleSheet.create({
   container: {
